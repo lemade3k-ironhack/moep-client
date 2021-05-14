@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUp(props) {
+function SignIn(props) {
   const { onSubmit, error } = props;
   const classes = useStyles();
 
@@ -58,7 +58,7 @@ function SignUp(props) {
           imperdiet orci.
         </Typography>
         <Typography component="h2" variant="h5">
-          Sign Up
+          Sign In
         </Typography>
       </div>
       <form onSubmit={onSubmit} className={classes.form} noValidate>
@@ -85,16 +85,6 @@ function SignUp(props) {
               type="password"
             />
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="passwordConfirmation"
-              label="Password Confirmation"
-              type="password"
-            />
-          </Grid>
         </Grid>
         <Button
           type="submit"
@@ -103,12 +93,12 @@ function SignUp(props) {
           color="primary"
           className={classes.submit}
         >
-          Sign Up
+          Sign In
         </Button>
         <Grid container justify="flex-end">
           <Grid item>
-            <Link to={"/"}>
-              Already have an account? Sign in
+            <Link to={"/signup"}>
+              No account yet? Sign up
             </Link>
           </Grid>
         </Grid>
@@ -117,4 +107,4 @@ function SignUp(props) {
   );
 }
 
-export default SignUp;
+export default SignIn;
