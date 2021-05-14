@@ -1,11 +1,11 @@
 import React from "react";
+import { Link } from 'react-router-dom'
 import {
   makeStyles,
   Avatar,
   Button,
   Container,
   Grid,
-  Link,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -58,7 +58,7 @@ function SignIn(props) {
           imperdiet orci.
         </Typography>
         <Typography component="h2" variant="h5">
-          Sign Up
+          Sign In
         </Typography>
       </div>
       <form onSubmit={onSubmit} className={classes.form} noValidate>
@@ -97,7 +97,7 @@ function SignIn(props) {
         </Button>
         <Grid container justify="flex-end">
           <Grid item>
-            <Link to="/signup">
+            <Link to={"/signup"}>
               No account yet? Sign up
             </Link>
           </Grid>

@@ -1,11 +1,11 @@
 import React from "react";
+import { Link } from 'react-router-dom'
 import {
   makeStyles,
   Avatar,
   Button,
   Container,
   Grid,
-  Link,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -53,7 +53,7 @@ function SignUp(props) {
         <Typography component="h1" variant="h3">
           MOEP
         </Typography>
-        <Typography component="body1" className={classes.description}>
+        <Typography className={classes.description}>
           Nullam accumsan lorem in dui. Nulla porta dolor. Etiam imperdiet
           imperdiet orci.
         </Typography>
@@ -107,7 +107,7 @@ function SignUp(props) {
         </Button>
         <Grid container justify="flex-end">
           <Grid item>
-            <Link to="/" variant="body2">
+            <Link to={"/"}>
               Already have an account? Sign in
             </Link>
           </Grid>
