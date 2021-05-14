@@ -1,2 +1,3 @@
-export { default as SignUp } from "./SignUp";
-export { default as SignIn } from "./SignIn";
+// export auth routes
+export { default as SignUp } from "./auth/SignUp";
+export { default as SignIn } from "./auth/SignIn";

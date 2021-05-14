@@ -2,7 +2,7 @@ import axios from "axios";
 import config from "./config";
 import { React, useState, useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import { SignUp, SignIn } from "./components";
+import { SignUp, SignIn, AdminDashboard } from "./components";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 function App(props) {
