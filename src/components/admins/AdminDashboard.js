@@ -2,7 +2,7 @@ import axios from "axios";
 import config from "../../config";
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, CircularProgress } from "@material-ui/core/";
+import { Grid, CircularProgress } from "@material-ui/core/";
 import { StageList } from "../index";
 
 const useStyles = makeStyles((theme) => ({
@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
 
 function AdminDashboard(props) {
   const [stages, updateStages] = useState([]);
+  const [error, updateError] = useState(null);
+  const [showNewForm, updateShowNewForm] = useState(false);
   const classes = useStyles();
 
   // fetch stages on mount
@@ -24,6 +26,21 @@ function AdminDashboard(props) {
     });
   }, []);
 
+  const handleNew = (name) => {
+    axios
+      .post(`${config.API_URL}/api/stage/create`, { name })
+      .then((res) => {
+        updateStages([res.data, ...stages]);
+        updateError(null);
+        updateShowNewForm(false);
+      })
+      .catch((err) => updateError(err.response.data));
+  };
+
+  const handleShowNewForm = () => {
+    updateShowNewForm(true);
+  };
+
   if (!stages) {
     return <CircularProgress />;
   }
@@ -31,12 +48,13 @@ function AdminDashboard(props) {
   return (
     <Grid className={classes.container} container spacing={3}>
       <Grid item xs={12}>
-        <Typography component="h1" variant="h5">
-          Stages
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <StageList stages={stages} />
+        <StageList
+          onNew={handleNew}
+          showNewForm={showNewForm}
+          handleShowNewForm={handleShowNewForm}
+          error={error}
+          stages={stages}
+        />
       </Grid>
     </Grid>
   );
