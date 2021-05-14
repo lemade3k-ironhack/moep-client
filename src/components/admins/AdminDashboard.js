@@ -41,6 +41,22 @@ function AdminDashboard(props) {
     updateShowNewForm(true);
   };
 
+  const handleEdit = (stage) => {
+    axios
+      .patch(`${config.API_URL}/api/stage/${stage._id}/update`, { name: stage.name })
+      .then(() => {
+        let updatedStages = stages.map((singleStage) => {
+          if (stage._id === singleStage._id) {
+            singleStage.name = stage.name;
+          }
+          return singleStage;
+        });
+        updateStages(updatedStages);
+        updateError(null);
+      })
+      .catch((err) => updateError(err.response.data));
+  };
+
   if (!stages) {
     return <CircularProgress />;
   }
@@ -52,6 +68,7 @@ function AdminDashboard(props) {
           onNew={handleNew}
           showNewForm={showNewForm}
           handleShowNewForm={handleShowNewForm}
+          onEdit={handleEdit}
           error={error}
           stages={stages}
         />

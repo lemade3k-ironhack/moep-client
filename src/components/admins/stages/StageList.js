@@ -16,9 +16,13 @@ function StageList(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     props.onNew(e.target.name.value);
   };
+
+  const handleUpdate = (stage) => {
+    props.onEdit(stage);
+  };
+
 
   return (
     <>
@@ -41,7 +45,14 @@ function StageList(props) {
           </TableHead>
           <TableBody>
             {stages.map((stage, i) => {
-              return <StageListRow key={i} error={error} stage={stage} />;
+              return (
+                <StageListRow
+                  key={i}
+                  error={error}
+                  stage={stage}
+                  onEdit={handleUpdate}
+                />
+              );
             })}
           </TableBody>
         </Table>

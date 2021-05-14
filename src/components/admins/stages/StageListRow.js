@@ -1,19 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { TableRow, TableCell } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { StageEditForm } from "../../index";
 
 function StageListRow(props) {
-  const { stage } = props;
+  const [showEditForm, updateShowEditForm] = useState(false);
+  const { stage, error } = props;
+
+  const handleUpdate = (stage) => {
+    props.onEdit(stage);
+    // ToDo: show form if validation errors
+    if (!error) updateShowEditForm(false)
+  };
+
+  const handleShowEditForm = () => {
+    updateShowEditForm(true) 
+  };
 
   return (
     <TableRow key={stage.name}>
       <TableCell component="th" scope="row">
-        {stage.name}
+        {showEditForm ? (
+          <StageEditForm onEdit={handleUpdate} stage={stage} error={error} />
+        ) : (
+          stage.name
+        )}
       </TableCell>
       <TableCell align="right">{stage.concerts.length}</TableCell>
       <TableCell align="right">
-        <EditIcon />
+        {!showEditForm ? <EditIcon onClick={handleShowEditForm} /> : ""}
         <DeleteIcon />
       </TableCell>
     </TableRow>
