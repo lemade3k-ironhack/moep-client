@@ -3,15 +3,23 @@ import config from "./config";
 import { React, useState, useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { SignUp, SignIn } from "./components";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function App(props) {
   const [user, updateUser] = useState(null);
   const [fetchingUser, updateFetchingUser] = useState(true)  
   const [error, updateError] = useState(null);
 
-  // if user has a session redirect to /welcome page
+  // check session and redirect
   useEffect(() => {
-    if (user) props.history.push('/welcome')
+    if (!user) {
+      props.history.push("/")
+      updateError({errorMessage: "Please sign in!"});
+    } else if (user.role === "admin") {
+      props.history.push("/admin")
+    } else {
+      props.history.push('/welcome')
+    }
   }, [user])
 
   // fetch user on mount
@@ -69,7 +77,7 @@ function App(props) {
 
 
   if(fetchingUser){
-    return <p>Loading . . . </p>
+    return <CircularProgress />
   }
 
   return (
