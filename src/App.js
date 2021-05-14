@@ -3,36 +3,37 @@ import config from "./config";
 import { React, useState, useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { SignUp, SignIn, AdminDashboard } from "./components";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function App(props) {
   const [user, updateUser] = useState(null);
-  const [fetchingUser, updateFetchingUser] = useState(true)  
+  const [fetchingUser, updateFetchingUser] = useState(true);
   const [error, updateError] = useState(null);
 
   // check session and redirect
   useEffect(() => {
     if (!user) {
-      props.history.push("/")
-      updateError({errorMessage: "Please sign in!"});
+      props.history.push("/");
+      updateError({ errorMessage: "Please sign in!" });
     } else if (user.role === "admin") {
-      props.history.push("/admin")
+      props.history.push("/admin");
     } else {
-      props.history.push('/welcome')
+      props.history.push("/welcome");
     }
-  }, [user])
+  }, [user]);
 
   // fetch user on mount
   useEffect(() => {
-    axios.get(`${config.API_URL}/api/auth/user`, {withCredentials: true}) 
+    axios
+      .get(`${config.API_URL}/api/auth/user`, { withCredentials: true })
       .then((res) => {
-        updateUser(res.data)
-        updateFetchingUser(false)
+        updateUser(res.data);
+        updateFetchingUser(false);
       })
       .catch(() => {
-        updateFetchingUser(false)
-      })
-  }, [])
+        updateFetchingUser(false);
+      });
+  }, []);
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -51,9 +52,7 @@ function App(props) {
         updateUser(response.data);
         updateError(null);
       })
-      .catch((err) => {
-        updateError(err.response.data);
-      });
+      .catch((err) => updateError(err.response.data));
   };
 
   const handleSignIn = (e) => {
@@ -65,7 +64,9 @@ function App(props) {
     };
 
     axios
-      .post(`${config.API_URL}/api/auth/signin`, user, { withCredentials: true })
+      .post(`${config.API_URL}/api/auth/signin`, user, {
+        withCredentials: true,
+      })
       .then((response) => {
         updateUser(response.data);
         updateError(null);
@@ -75,8 +76,8 @@ function App(props) {
       });
   };
 
-  if(fetchingUser){
-    return <CircularProgress />
+  if (fetchingUser) {
+    return <CircularProgress />;
   }
 
   return (
