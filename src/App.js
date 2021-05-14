@@ -75,7 +75,6 @@ function App(props) {
       });
   };
 
-
   if(fetchingUser){
     return <CircularProgress />
   }
@@ -100,6 +99,7 @@ function App(props) {
             );
           }}
         />
+        <Route path="/admin" component={AdminDashboard} />
       </Switch>
     </>
   );
