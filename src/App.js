@@ -4,7 +4,9 @@ import { React, useState, useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { SignUp, SignIn } from "./components";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import DashUser from "./components/user/DashUser";
+import DashUser from "./components/user/UserDashboard";
+import Concerts from "./components/user/Concerts";
+import ConcertDetail from "./components/user/ConcertDetail";
 
 function App(props) {
    const [user, updateUser] = useState(null);
@@ -115,6 +117,18 @@ function App(props) {
                path="/welcome"
                render={(routeProps) => {
                   return <DashUser user={user} {...routeProps} />;
+               }}
+            />
+            <Route
+               path="/concerts"
+               render={(routeProps) => {
+                  return <Concerts user={user} {...routeProps} />;
+               }}
+            />
+            <Route
+               path="/concerts/:concertId"
+               render={(routeProps) => {
+                  return <ConcertDetail user={user} {...routeProps} />;
                }}
             />
          </Switch>
