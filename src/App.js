@@ -8,19 +8,20 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 function App(props) {
   const [user, updateUser] = useState(null);
   const [fetchingUser, updateFetchingUser] = useState(true);
+  const [redirectPath, updateRedirectPath] = useState(null);
   const [error, updateError] = useState(null);
+  const { history } = props;
 
-  // check session and redirect
+  // handle redirects
   useEffect(() => {
-    if (!user) {
-      props.history.push("/");
-      updateError({ errorMessage: "Please sign in!" });
-    } else if (user.role === "admin") {
-      props.history.push("/admin");
-    } else {
-      props.history.push("/welcome");
+    if (redirectPath === "signin") {
+      history.push("/");
+    } else if (redirectPath === "adminDashboard") {
+      history.push("/admin");
+    } else if (redirectPath === "userDashboard") {
+      history.push("/welcome");
     }
-  }, [user]);
+  }, [history, redirectPath]);
 
   // fetch user on mount
   useEffect(() => {
@@ -32,6 +33,7 @@ function App(props) {
       })
       .catch(() => {
         updateFetchingUser(false);
+        updateRedirectPath("signin");
       });
   }, []);
 
@@ -51,6 +53,7 @@ function App(props) {
       .then((response) => {
         updateUser(response.data);
         updateError(null);
+        updateRedirectPath("userDashboard");
       })
       .catch((err) => updateError(err.response.data));
   };
@@ -67,9 +70,15 @@ function App(props) {
       .post(`${config.API_URL}/api/auth/signin`, user, {
         withCredentials: true,
       })
-      .then((response) => {
-        updateUser(response.data);
+      .then((res) => {
+        updateUser(res.data);
         updateError(null);
+
+        if (res.data.role === "admin") {
+          updateRedirectPath("adminDashboard");
+        } else {
+          updateRedirectPath("userDashboard");
+        }
       })
       .catch((err) => {
         updateError(err.response.data);
