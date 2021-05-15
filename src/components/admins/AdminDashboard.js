@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, CircularProgress } from "@material-ui/core/";
 import { StageList } from "../index";
+import { Redirect } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -14,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AdminDashboard(props) {
+  const { user } = props;
   const [stages, updateStages] = useState([]);
   const [error, updateError] = useState(null);
   const [showNewForm, updateShowNewForm] = useState(false);
@@ -43,7 +45,9 @@ function AdminDashboard(props) {
 
   const handleEdit = (stage) => {
     axios
-      .patch(`${config.API_URL}/api/stage/${stage._id}/update`, { name: stage.name })
+      .patch(`${config.API_URL}/api/stage/${stage._id}/update`, {
+        name: stage.name,
+      })
       .then(() => {
         let updatedStages = stages.map((singleStage) => {
           if (stage._id === singleStage._id) {
@@ -58,19 +62,23 @@ function AdminDashboard(props) {
   };
 
   const handleDelete = (stageId) => {
-    axios.delete(`${config.API_URL}/api/stage/${stageId}/delete`)
+    axios
+      .delete(`${config.API_URL}/api/stage/${stageId}/delete`)
       .then(() => {
-          let filteredStages = stages.filter((stage) => {
-            return stage._id !== stageId
-          })
-          updateStages(filteredStages)
+        let filteredStages = stages.filter((stage) => {
+          return stage._id !== stageId;
+        });
+        updateStages(filteredStages);
       })
       .catch((err) => updateError(err.response.data));
-    }
+  };
 
-  if (!stages) {
-    return <CircularProgress />;
+  if (!user) {
+    return <Redirect to={"/"} />;
+  } else if (user.role !== "admin") {
+    return <Redirect to={"/welcome"} />;
   }
+  if (!stages) return <CircularProgress />;
 
   return (
     <Grid className={classes.container} container spacing={3}>

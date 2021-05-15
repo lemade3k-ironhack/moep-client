@@ -85,10 +85,7 @@ function App(props) {
       });
   };
 
-  if (fetchingUser) {
-    return <CircularProgress />;
-  }
-
+  if (fetchingUser) return <CircularProgress />;
   return (
     <>
       <Switch>
@@ -109,7 +106,9 @@ function App(props) {
             );
           }}
         />
-        <Route path="/admin" component={AdminDashboard} />
+        <Route exact path="/admin" render={() => {
+          return <AdminDashboard user={user} />
+        }}/>
       </Switch>
     </>
   );
