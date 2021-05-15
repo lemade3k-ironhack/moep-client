@@ -2,9 +2,9 @@ import axios from "axios";
 import config from "./config";
 import { React, useState, useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import { SignUp, SignIn } from "./components";
+import { SignUp, SignIn, AdminDashboard, DashUser } from "./components";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import DashUser from "./components/user/UserDashboard";
+
 import Concerts from "./components/user/Concerts";
 import ConcertDetail from "./components/user/ConcertDetail";
 
@@ -55,9 +55,7 @@ function App(props) {
             updateUser(response.data);
             updateError(null);
          })
-         .catch((err) => {
-            updateError(err.data);
-         });
+         .catch((err) => updateError(err.response.data));
    };
 
    const handleSignIn = (e) => {
@@ -114,9 +112,9 @@ function App(props) {
                }}
             />
             <Route
-               path="/welcome"
+               path="/concerts/:concertId"
                render={(routeProps) => {
-                  return <DashUser user={user} {...routeProps} />;
+                  return <ConcertDetail user={user} {...routeProps} />;
                }}
             />
             <Route
@@ -126,11 +124,12 @@ function App(props) {
                }}
             />
             <Route
-               path="/concerts/:concertId"
+               path="/welcome"
                render={(routeProps) => {
-                  return <ConcertDetail user={user} {...routeProps} />;
+                  return <DashUser user={user} {...routeProps} />;
                }}
             />
+            <Route path="/admin" component={AdminDashboard} />
          </Switch>
       </>
    );
