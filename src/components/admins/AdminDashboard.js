@@ -57,6 +57,17 @@ function AdminDashboard(props) {
       .catch((err) => updateError(err.response.data));
   };
 
+  const handleDelete = (stageId) => {
+    axios.delete(`${config.API_URL}/api/stage/${stageId}/delete`)
+      .then(() => {
+          let filteredStages = stages.filter((stage) => {
+            return stage._id !== stageId
+          })
+          updateStages(filteredStages)
+      })
+      .catch((err) => updateError(err.response.data));
+    }
+
   if (!stages) {
     return <CircularProgress />;
   }
@@ -69,6 +80,7 @@ function AdminDashboard(props) {
           showNewForm={showNewForm}
           handleShowNewForm={handleShowNewForm}
           onEdit={handleEdit}
+          onDelete={handleDelete}
           error={error}
           stages={stages}
         />

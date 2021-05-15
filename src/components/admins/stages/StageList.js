@@ -12,7 +12,13 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { StageListRow, StageNewForm } from "../../index";
 
 function StageList(props) {
-  const { stages, error, showNewForm, handleShowNewForm } = props;
+  const {
+    stages,
+    error,
+    showNewForm,
+    handleShowNewForm,
+    onDelete,
+  } = props;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,6 +57,7 @@ function StageList(props) {
                   error={error}
                   stage={stage}
                   onEdit={handleUpdate}
+                  onDelete={onDelete}
                 />
               );
             })}

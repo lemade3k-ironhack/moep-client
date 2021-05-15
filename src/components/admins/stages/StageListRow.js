@@ -6,7 +6,7 @@ import { StageEditForm } from "../../index";
 
 function StageListRow(props) {
   const [showEditForm, updateShowEditForm] = useState(false);
-  const { stage, error } = props;
+  const { stage, error, onEdit, onDelete } = props;
 
   const handleUpdate = (stage) => {
     props.onEdit(stage);
