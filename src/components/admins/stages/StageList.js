@@ -15,20 +15,21 @@ function StageList(props) {
   const {
     stages,
     error,
+    onNew,
     showNewForm,
     handleShowNewForm,
+    onEdit,
     onDelete,
   } = props;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.onNew(e.target.name.value);
+    onNew(e.target.name.value);
   };
 
   const handleUpdate = (stage) => {
-    props.onEdit(stage);
+    onEdit(stage);
   };
-
 
   return (
     <>

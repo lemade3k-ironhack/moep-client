@@ -9,7 +9,7 @@ function StageListRow(props) {
   const { stage, error, onEdit, onDelete } = props;
 
   const handleUpdate = (stage) => {
-    props.onEdit(stage);
+    onEdit(stage);
     // ToDo: show form if validation errors
     if (!error) updateShowEditForm(false)
   };
@@ -30,7 +30,7 @@ function StageListRow(props) {
       <TableCell align="right">{stage.concerts.length}</TableCell>
       <TableCell align="right">
         {!showEditForm ? <EditIcon onClick={handleShowEditForm} /> : ""}
-        <DeleteIcon />
+        <DeleteIcon onClick={() => { onDelete(stage._id)  } }/>
       </TableCell>
     </TableRow>
   );

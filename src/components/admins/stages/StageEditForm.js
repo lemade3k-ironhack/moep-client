@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 function StageEditForm(props) {
   const [stage, updateStage] = useState(props.stage)
-  const { error } = props;
+  const { error, onEdit } = props;
   const classes = useStyles();
 
   const handleNameChange = (event) => {
@@ -50,7 +50,7 @@ function StageEditForm(props) {
         variant="contained"
         color="primary"
         className={classes.submit}
-        onClick={ () => { props.onEdit(stage) } }
+        onClick={ () => { onEdit(stage) } }
       >
         Update Stage
       </Button>
