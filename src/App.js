@@ -2,11 +2,15 @@ import axios from "axios";
 import config from "./config";
 import { React, useState, useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import { SignUp, SignIn, AdminDashboard, DashUser } from "./components";
+import {
+  SignUp,
+  SignIn,
+  AdminDashboard,
+  UserDashboard,
+  ConcertList,
+  ConcertDetail,
+} from "./components";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-import Concerts from "./components/user/Concerts";
-import ConcertDetail from "./components/user/ConcertDetail";
 
 function App(props) {
   const [user, updateUser] = useState(null);
@@ -29,6 +33,7 @@ function App(props) {
 
   // fetch user on mount
   useEffect(() => {
+    // check if user has a session
     axios
       .get(`${config.API_URL}/api/auth/user`, { withCredentials: true })
       .then((res) => {
@@ -40,6 +45,7 @@ function App(props) {
         updateRedirectPath("signin");
       });
 
+    // get all concerts
     axios.get("http://localhost:5005/api/concerts").then((response) => {
       updateConcerts(response.data);
     });
@@ -120,13 +126,13 @@ function App(props) {
         <Route
           path="/concerts"
           render={() => {
-            return <Concerts concerts={concerts} user={user} />;
+            return <ConcertList concerts={concerts} user={user} />;
           }}
         />
         <Route
           path="/welcome"
           render={() => {
-            return <DashUser user={user} />;
+            return <UserDashboard user={user} />;
           }}
         />
         <Route

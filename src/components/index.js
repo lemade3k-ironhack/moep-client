@@ -10,4 +10,6 @@ export { default as StageNewForm } from "./admins/stages/StageNewForm";
 export { default as StageEditForm } from "./admins/stages/StageEditForm";
 
 // export user routes
-export { default as DashUser } from "./user/UserDashboard";
+export { default as UserDashboard } from "./users/UserDashboard";
+export { default as ConcertList } from "./users/concerts/ConcertList";
+export { default as ConcertDetail } from "./users/concerts/ConcertDetail";
