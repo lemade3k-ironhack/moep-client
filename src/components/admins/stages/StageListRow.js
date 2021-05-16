@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TableRow, TableCell } from "@material-ui/core";
+import { TableRow, TableCell, Link } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { StageEditForm } from "../../index";
@@ -24,13 +24,15 @@ function StageListRow(props) {
         {showEditForm ? (
           <StageEditForm onEdit={handleUpdate} stage={stage} error={error} />
         ) : (
-          stage.name
+          <Link to={`/admin/${stage.name}/calendar`}>{stage.name}</Link>
         )}
       </TableCell>
-      <TableCell align="right">{stage.concerts.length}</TableCell>
+      <TableCell align="right">
+        {stage.concerts.length}
+      </TableCell>
       <TableCell align="right">
         {!showEditForm ? <EditIcon onClick={handleShowEditForm} /> : ""}
-        <DeleteIcon onClick={() => { onDelete(stage._id)  } }/>
+        <DeleteIcon onClick={() => onDelete(stage._id)}/>
       </TableCell>
     </TableRow>
   );

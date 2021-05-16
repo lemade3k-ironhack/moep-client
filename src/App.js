@@ -50,8 +50,8 @@ function App(props) {
       .post(`${config.API_URL}/api/auth/signup`, newUser, {
         withCredentials: true,
       })
-      .then((response) => {
-        updateUser(response.data);
+      .then((res) => {
+        updateUser(res.data);
         updateError(null);
         updateRedirectPath("userDashboard");
       })
@@ -86,32 +86,36 @@ function App(props) {
   };
 
   if (fetchingUser) return <CircularProgress />;
+
   return (
     <>
       <Switch>
         <Route
           exact
           path="/"
-          render={(routeProps) => {
-            return (
-              <SignIn error={error} onSubmit={handleSignIn} {...routeProps} />
-            );
+          render={() => {
+            return <SignIn error={error} onSubmit={handleSignIn} />;
           }}
         />
         <Route
           path="/signup"
-          render={(routeProps) => {
-            return (
-              <SignUp error={error} onSubmit={handleSignUp} {...routeProps} />
-            );
+          render={() => {
+            return <SignUp error={error} onSubmit={handleSignUp} />;
           }}
         />
-        <Route exact path="/admin" render={() => {
-          return <AdminDashboard user={user} />
-        }}/>
-        <Route path="/admin/calendar" render={() => {
-          return <AdminCalendar user={user} />
-        }}/> 
+        <Route
+          exact
+          path="/admin"
+          render={() => {
+            return <AdminDashboard user={user} />;
+          }}
+        />
+        <Route
+          path="/admin/:stageName/calendar"
+          render={(routeProps) => {
+            return <AdminCalendar user={user} {...routeProps} />;
+          }}
+        />
       </Switch>
     </>
   );
