@@ -6,14 +6,6 @@ import { Grid, CircularProgress } from "@material-ui/core/";
 import { StageList } from "../index";
 import { Redirect } from "react-router";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: theme.spacing(2),
-    margin: "auto",
-    maxWidth: 1200,
-  },
-}));
-
 function AdminDashboard(props) {
   const { user } = props;
   const [stages, updateStages] = useState([]);
@@ -96,5 +88,13 @@ function AdminDashboard(props) {
     </Grid>
   );
 }
+  
+const useStyles = makeStyles((theme) => ({
+  container: {
+    padding: theme.spacing(2),
+    margin: "auto",
+    maxWidth: 1200,
+  },
+}));
 
 export default AdminDashboard;

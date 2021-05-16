@@ -27,10 +27,6 @@ function StageList(props) {
     onNew(e.target.name.value);
   };
 
-  const handleUpdate = (stage) => {
-    onEdit(stage);
-  };
-
   return (
     <>
       <Typography component="h1" variant="h5">
@@ -57,7 +53,7 @@ function StageList(props) {
                   key={i}
                   error={error}
                   stage={stage}
-                  onEdit={handleUpdate}
+                  onEdit={onEdit}
                   onDelete={onDelete}
                 />
               );
