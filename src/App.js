@@ -12,6 +12,7 @@ function App(props) {
    const [user, updateUser] = useState(null);
    const [fetchingUser, updateFetchingUser] = useState(true);
    const [error, updateError] = useState(null);
+   const [concerts, updateConcerts] = useState([]);
 
    // check session and redirect
    useEffect(() => {
@@ -36,6 +37,9 @@ function App(props) {
          .catch(() => {
             updateFetchingUser(false);
          });
+      axios.get("http://localhost:5005/api/concerts").then((response) => {
+         updateConcerts(response.data);
+      });
    }, []);
 
    const handleSignUp = (e) => {
@@ -120,7 +124,13 @@ function App(props) {
             <Route
                path="/concerts"
                render={(routeProps) => {
-                  return <Concerts user={user} {...routeProps} />;
+                  return (
+                     <Concerts
+                        concerts={concerts}
+                        user={user}
+                        {...routeProps}
+                     />
+                  );
                }}
             />
             <Route
