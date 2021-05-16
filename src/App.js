@@ -101,18 +101,14 @@ function App(props) {
         <Route
           exact
           path="/"
-          render={(routeProps) => {
-            return (
-              <SignIn error={error} onSubmit={handleSignIn} {...routeProps} />
-            );
+          render={() => {
+            return <SignIn error={error} onSubmit={handleSignIn} />;
           }}
         />
         <Route
           path="/signup"
-          render={(routeProps) => {
-            return (
-              <SignUp error={error} onSubmit={handleSignUp} {...routeProps} />
-            );
+          render={() => {
+            return <SignUp error={error} onSubmit={handleSignUp} />;
           }}
         />
         <Route
@@ -123,14 +119,14 @@ function App(props) {
         />
         <Route
           path="/concerts"
-          render={(routeProps) => {
-            return <Concerts concerts={concerts} user={user} {...routeProps} />;
+          render={() => {
+            return <Concerts concerts={concerts} user={user} />;
           }}
         />
         <Route
           path="/welcome"
-          render={(routeProps) => {
-            return <DashUser user={user} {...routeProps} />;
+          render={() => {
+            return <DashUser user={user} />;
           }}
         />
         <Route
