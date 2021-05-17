@@ -23,6 +23,7 @@ function UserDashboard(props) {
       <Grid item xs={12}>
         <h1>Hello {user.name}</h1>
         <Link to={"/concerts"}>Lineup</Link>
+        <Link to={"/calendar"}>Calendar</Link>
         <UpcomingList concerts={upcoming} />
       </Grid>
     </Grid>

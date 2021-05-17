@@ -15,8 +15,9 @@ export { default as AdminConcertDetail } from "./admins/calendar/ConcertDetail";
 
 // export user components
 export { default as UserDashboard } from "./users/UserDashboard";
+export { default as UpcomingList } from "./users/upcomingShows/UpcomingList";
+
 export { default as ConcertList } from "./users/concerts/ConcertList";
 export { default as ConcertDetail } from "./users/concerts/ConcertDetail";
 
-export { default as UpcomingList } from "./users/upcomingShows/UpcomingList";
-export { default as UpcomingDetail } from "./users/upcomingShows/UpcomingDetail";
+export { default as Calendar } from "./users/calendar/Calendar"
