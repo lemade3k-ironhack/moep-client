@@ -2,7 +2,15 @@ import axios from "axios";
 import config from "./config";
 import { React, useState, useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import { SignUp, SignIn, AdminDashboard, AdminCalendar } from "./components";
+import {
+  SignUp,
+  SignIn,
+  AdminDashboard,
+  AdminCalendar,
+  UserDashboard,
+  ConcertList,
+  ConcertDetail,
+} from "./components";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 function App(props) {
@@ -10,6 +18,7 @@ function App(props) {
   const [fetchingUser, updateFetchingUser] = useState(true);
   const [redirectPath, updateRedirectPath] = useState(null);
   const [error, updateError] = useState(null);
+  const [concerts, updateConcerts] = useState([]);
   const { history } = props;
 
   // handle redirects
@@ -25,6 +34,7 @@ function App(props) {
 
   // fetch user on mount
   useEffect(() => {
+    // check if user has a session
     axios
       .get(`${config.API_URL}/api/auth/user`, { withCredentials: true })
       .then((res) => {
@@ -35,6 +45,11 @@ function App(props) {
         updateFetchingUser(false);
         updateRedirectPath("signin");
       });
+
+    // get all concerts
+    axios.get("http://localhost:5005/api/concerts").then((response) => {
+      updateConcerts(response.data);
+    });
   }, []);
 
   const handleSignUp = (e) => {
@@ -104,6 +119,24 @@ function App(props) {
           }}
         />
         <Route
+          path="/welcome"
+          render={() => {
+            return <UserDashboard user={user} />;
+          }}
+        />
+        <Route
+          path="/concerts"
+          render={() => {
+            return <ConcertList concerts={concerts} user={user} />;
+          }}
+        />
+        <Route
+          path="/concerts/:concertId"
+          render={(routeProps) => {
+            return <ConcertDetail user={user} {...routeProps} />;
+          }}
+        />
+        <Route
           exact
           path="/admin"
           render={() => {
@@ -115,7 +148,7 @@ function App(props) {
           render={(routeProps) => {
             return <AdminCalendar user={user} {...routeProps} />;
           }}
-        />
+         />
       </Switch>
     </>
   );
