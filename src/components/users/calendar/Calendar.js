@@ -1,22 +1,41 @@
-import { Grid, makeStyles } from "@material-ui/core";
-import React from "react";
+import axios from "axios";
+import config from "../../../config";
+import React, { useState } from "react";
 import { Redirect } from "react-router";
+import { Grid, makeStyles } from "@material-ui/core";
 import FullCalendar from "@fullcalendar/react";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import scrollGridPlugin from "@fullcalendar/scrollgrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Modal, { ModalProvider } from "styled-react-modal";
 import { ThemeProvider } from "styled-components";
+import ConcertDetail from "../concerts/ConcertDetail";
 
 function Calendar(props) {
   const { user, stages, concerts } = props;
+  const [showOpen, updateShowOpen] = useState(false);
+  const [concert, updateConcert] = useState(null);
   const classes = useStyles();
   const festivalStart = "2021-06-01";
   const festivalEnd = "2021-06-05";
 
+  // helper function to toggle overlay
+  const toggleShowOpen = () => {
+    updateShowOpen(!showOpen);
+  };
+
+  // get concert when calender event is clicked
+  const handleEventClick = (calendar) => {
+    const bandname = calendar.event._def.title;
+
+    axios.get(`${config.API_URL}/api/concerts/${bandname}`).then((res) => {
+      updateConcert(res.data);
+      toggleShowOpen();
+    });
+  };
+
   if (!user) return <Redirect to={"/"} />;
 
-  console.log(concerts)
   return (
     <Grid className={classes.container} container spacing={3}>
       <Grid item xs={12}>
@@ -35,7 +54,20 @@ function Calendar(props) {
           height={"auto"}
           resources={stages}
           events={concerts}
+          eventClick={handleEventClick}
         />
+        {/* render show concert details as overlay */}
+        <ThemeProvider theme={{}}>
+          <ModalProvider>
+            <StyledModal
+              isOpen={showOpen}
+              onBackgroundClick={toggleShowOpen}
+              onEscapeKeydown={toggleShowOpen}
+            >
+              <ConcertDetail concert={concert}/>
+            </StyledModal>
+          </ModalProvider>
+        </ThemeProvider>
       </Grid>
     </Grid>
   );
@@ -50,8 +82,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const StyledModal = Modal.styled`
-  width: 40rem;
-  height: 40rem;
+  width: 20rem;
+  height: 20rem;
   display: flex;
   align-items: center;
   justify-content: center;
