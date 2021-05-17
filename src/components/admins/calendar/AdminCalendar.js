@@ -115,6 +115,18 @@ function AdminCalendar(props) {
     });
   };
 
+  const handleDelete = (concertId) => {
+    axios
+      .delete(`${config.API_URL}/api/concerts/${concertId}/delete`)
+      .then((deleted) => {
+        let filtered = concerts.filter(concert => concert.title !== deleted.bandname)
+        updateConcerts(filtered)
+        updateError(null);
+        toggleShowOpen();
+      })
+      .catch((err) => console.log(err))
+  };
+
   if (!user) {
     return <Redirect to={"/"} />;
   } else if (user.role !== "admin") {
@@ -175,6 +187,7 @@ function AdminCalendar(props) {
               <AdminConcertDetail
                 stageName={stage.name}
                 concert={concert}
+                onDelete={handleDelete}
               />
             </StyledModal>
           </ModalProvider>

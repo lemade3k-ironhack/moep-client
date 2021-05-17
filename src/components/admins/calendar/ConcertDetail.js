@@ -36,7 +36,7 @@ function ConcertDetail(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button onClick={() => { onDelete(concert._id) }} size="small" color="primary">
           delete
         </Button>
       </CardActions>
