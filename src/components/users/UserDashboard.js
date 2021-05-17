@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "../../config";
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,7 +14,7 @@ function UserDashboard(props) {
   // fetch data on mount
   useEffect(() => {
     //get upcoming concerts
-    axios.get("http://localhost:5005/api/upcoming").then((response) => {
+    axios.get(`${config.API_URL}/api/upcoming`).then((response) => {
       updateUpcoming(response.data);
     });
   }, []);
@@ -24,7 +25,7 @@ function UserDashboard(props) {
         <h1>Hello {user.name}</h1>
         <Link to={"/concerts"}>Lineup</Link>
         <Link to={"/calendar"}>Calendar</Link>
-        <UpcomingList concerts={upcoming} />
+        <UpcomingList concerts={upcoming} user={user} />
       </Grid>
     </Grid>
   );
