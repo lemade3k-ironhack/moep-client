@@ -1,5 +1,5 @@
 import React from "react";
-import ConcertDetail from "./ConcertDetail";
+import { ConcertDetail }from "../../index";
 
 function ConcertList(props) {
   const { concerts } = props;

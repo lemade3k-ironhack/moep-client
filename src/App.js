@@ -3,14 +3,6 @@ import config from "./config";
 import { React, useState, useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import {
-<<<<<<< HEAD
-   SignUp,
-   SignIn,
-   AdminDashboard,
-   UserDashboard,
-   ConcertList,
-   ConcertDetail,
-=======
   SignUp,
   SignIn,
   AdminDashboard,
@@ -18,7 +10,6 @@ import {
   UserDashboard,
   ConcertList,
   ConcertDetail,
->>>>>>> 69bf4b81992c5be94c8fc0fd50dead90a38aeb23
 } from "./components";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -28,7 +19,6 @@ function App(props) {
    const [redirectPath, updateRedirectPath] = useState(null);
    const [error, updateError] = useState(null);
    const [concerts, updateConcerts] = useState([]);
-   const [upcoming, updateUpcoming] = useState([]);
    const { history } = props;
 
    // handle redirects
@@ -42,7 +32,7 @@ function App(props) {
       }
    }, [history, redirectPath]);
 
-   // fetch user on mount
+   // fetch data on mount
    useEffect(() => {
       // check if user has a session
       axios
@@ -60,11 +50,6 @@ function App(props) {
       axios.get("http://localhost:5005/api/concerts").then((response) => {
          updateConcerts(response.data);
       });
-
-      //get upcoming concerts
-      axios.get("http://localhost:5005/api/upcoming").then((response) => {
-         updateUpcoming(response.data);
-      });
    }, []);
 
    const handleSignUp = (e) => {
@@ -76,19 +61,6 @@ function App(props) {
          passwordConfirmation: passwordConfirmation.value,
       };
 
-<<<<<<< HEAD
-      axios
-         .post(`${config.API_URL}/api/auth/signup`, newUser, {
-            withCredentials: true,
-         })
-         .then((response) => {
-            updateUser(response.data);
-            updateError(null);
-            updateRedirectPath("userDashboard");
-         })
-         .catch((err) => updateError(err.response.data));
-   };
-=======
     axios
       .post(`${config.API_URL}/api/auth/signup`, newUser, {
         withCredentials: true,
@@ -100,7 +72,6 @@ function App(props) {
       })
       .catch((err) => updateError(err.response.data));
   };
->>>>>>> 69bf4b81992c5be94c8fc0fd50dead90a38aeb23
 
    const handleSignIn = (e) => {
       e.preventDefault();
@@ -131,52 +102,6 @@ function App(props) {
 
    if (fetchingUser) return <CircularProgress />;
 
-<<<<<<< HEAD
-   return (
-      <>
-         <Switch>
-            <Route
-               exact
-               path="/"
-               render={() => {
-                  return <SignIn error={error} onSubmit={handleSignIn} />;
-               }}
-            />
-            <Route
-               path="/signup"
-               render={() => {
-                  return <SignUp error={error} onSubmit={handleSignUp} />;
-               }}
-            />
-            <Route
-               path="/concerts/:concertId"
-               render={(routeProps) => {
-                  return <ConcertDetail user={user} {...routeProps} />;
-               }}
-            />
-            <Route
-               path="/concerts"
-               render={() => {
-                  return <ConcertList concerts={concerts} user={user} />;
-               }}
-            />
-            <Route
-               path="/welcome"
-               render={() => {
-                  return <UserDashboard upcoming={upcoming} user={user} />;
-               }}
-            />
-            <Route
-               exact
-               path="/admin"
-               render={() => {
-                  return <AdminDashboard user={user} />;
-               }}
-            />
-         </Switch>
-      </>
-   );
-=======
   return (
     <>
       <Switch>
@@ -200,15 +125,9 @@ function App(props) {
           }}
         />
         <Route
-          path="/concerts"
+          exact path="/concerts"
           render={() => {
             return <ConcertList concerts={concerts} user={user} />;
-          }}
-        />
-        <Route
-          path="/concerts/:concertId"
-          render={(routeProps) => {
-            return <ConcertDetail user={user} {...routeProps} />;
           }}
         />
         <Route
@@ -227,7 +146,6 @@ function App(props) {
       </Switch>
     </>
   );
->>>>>>> 69bf4b81992c5be94c8fc0fd50dead90a38aeb23
 }
 
 export default withRouter(App);
