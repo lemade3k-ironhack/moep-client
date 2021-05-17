@@ -8,7 +8,6 @@ import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import scrollGridPlugin from "@fullcalendar/scrollgrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Modal, { ModalProvider } from "styled-react-modal";
-import { ThemeProvider } from "styled-components";
 import ConcertDetail from "../concerts/ConcertDetail";
 
 function Calendar(props) {
@@ -57,17 +56,15 @@ function Calendar(props) {
           eventClick={handleEventClick}
         />
         {/* render show concert details as overlay */}
-        <ThemeProvider theme={{}}>
-          <ModalProvider>
-            <StyledModal
-              isOpen={showOpen}
-              onBackgroundClick={toggleShowOpen}
-              onEscapeKeydown={toggleShowOpen}
-            >
-              <ConcertDetail concert={concert}/>
-            </StyledModal>
-          </ModalProvider>
-        </ThemeProvider>
+        <ModalProvider>
+          <StyledModal
+            isOpen={showOpen}
+            onBackgroundClick={toggleShowOpen}
+            onEscapeKeydown={toggleShowOpen}
+          >
+            <ConcertDetail concert={concert} />
+          </StyledModal>
+        </ModalProvider>
       </Grid>
     </Grid>
   );
