@@ -7,7 +7,6 @@ import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import scrollGridPlugin from "@fullcalendar/scrollgrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Modal, { ModalProvider } from "styled-react-modal";
-import { ThemeProvider } from "styled-components";
 import {
   CircularProgress,
   Grid,
@@ -119,12 +118,14 @@ function AdminCalendar(props) {
     axios
       .delete(`${config.API_URL}/api/concerts/${concertId}/delete`)
       .then((deleted) => {
-        let filtered = concerts.filter(concert => concert.title !== deleted.bandname)
-        updateConcerts(filtered)
+        let filtered = concerts.filter(
+          (concert) => concert.title !== deleted.bandname
+        );
+        updateConcerts(filtered);
         updateError(null);
         toggleShowOpen();
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   };
 
   if (!user) {
@@ -159,39 +160,35 @@ function AdminCalendar(props) {
           eventClick={handleEventClick}
         />
         {/* render new form as overlay */}
-        <ThemeProvider theme={{}}>
-          <ModalProvider>
-            <StyledModal
-              isOpen={newFormOpen}
-              onBackgroundClick={toggleNewForm}
-              onEscapeKeydown={toggleNewForm}
-            >
-              <ConcertNewForm
-                festivalStart={festivalStart}
-                festivalEnd={festivalEnd}
-                dateOnNew={dateOnNew}
-                onSubmit={handleNewConcert}
-                error={error}
-              />
-            </StyledModal>
-          </ModalProvider>
-        </ThemeProvider>
+        <ModalProvider>
+          <StyledModal
+            isOpen={newFormOpen}
+            onBackgroundClick={toggleNewForm}
+            onEscapeKeydown={toggleNewForm}
+          >
+            <ConcertNewForm
+              festivalStart={festivalStart}
+              festivalEnd={festivalEnd}
+              dateOnNew={dateOnNew}
+              onSubmit={handleNewConcert}
+              error={error}
+            />
+          </StyledModal>
+        </ModalProvider>
         {/* render show concert details as overlay */}
-        <ThemeProvider theme={{}}>
-          <ModalProvider>
-            <StyledModal
-              isOpen={showOpen}
-              onBackgroundClick={toggleShowOpen}
-              onEscapeKeydown={toggleShowOpen}
-            >
-              <AdminConcertDetail
-                stageName={stage.name}
-                concert={concert}
-                onDelete={handleDelete}
-              />
-            </StyledModal>
-          </ModalProvider>
-        </ThemeProvider>
+        <ModalProvider>
+          <StyledModal
+            isOpen={showOpen}
+            onBackgroundClick={toggleShowOpen}
+            onEscapeKeydown={toggleShowOpen}
+          >
+            <AdminConcertDetail
+              stageName={stage.name}
+              concert={concert}
+              onDelete={handleDelete}
+            />
+          </StyledModal>
+        </ModalProvider>
       </Grid>
     </Grid>
   );
