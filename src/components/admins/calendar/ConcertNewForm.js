@@ -10,7 +10,7 @@ import Alert from "@material-ui/lab/Alert";
 import moment from "moment";
 
 function ConcertNewForm(props) {
-  const { dateOnNew, onSubmit, error } = props;
+  const { festivalStart, festivalEnd, dateOnNew, onSubmit, error } = props;
   const classes = useStyles();
   
   return (
@@ -44,7 +44,7 @@ function ConcertNewForm(props) {
           InputLabelProps={{
             shrink: true,
           }}
-          InputProps={{inputProps: { min: "2021-06-01", max: "2021-06-04"} }}
+          InputProps={{inputProps: { min: festivalStart, max: festivalEnd} }}
         />
         <TextField
           name="starttime"
