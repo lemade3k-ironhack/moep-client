@@ -24,11 +24,10 @@ function AdminCalendar(props) {
   const [dateOnNew, updateDateOnNew] = useState("");
   const { user } = props;
   const classes = useStyles();
+  const festivalStart = "2021-06-01";
+  const festivalEnd = "2021-06-05";
 
-  // calendar settings
-  const festivalDateRange = { start: "2021-06-01", end: "2021-06-05" };
-  const headerToolbar = { start: "", center: "title", end: "" };
-
+  // get all concerts on mount
   useEffect(() => {
     let stageName = props.match.params.stageName;
 
@@ -53,18 +52,24 @@ function AdminCalendar(props) {
       .catch((err) => updateError(err.response.data));
   }, []);
 
+  // helper function to toggle overlay
   const toggleNewForm = () => {
     updateNewFormOpen(!newFormOpen);
   };
+
+  // toggle new form when calendar date is clicked
   const handleDateClick = (calendar) => {
     updateDateOnNew(calendar.dateStr);
     toggleNewForm();
   };
-  
+
+  // create new concert after submitting the form
   const handleNewConcert = (e) => {
     e.preventDefault();
-    const starttime = new Date(`${e.target.day.value}T${e.target.starttime.value}`)
-    const endtime = new Date(`${e.target.day.value}T${e.target.endtime.value}`)
+    const starttime = new Date(
+      `${e.target.day.value}T${e.target.starttime.value}`
+    );
+    const endtime = new Date(`${e.target.day.value}T${e.target.endtime.value}`);
 
     axios
       .post(`${config.API_URL}/api/stages/${stage.id}/concerts/create`, {
@@ -75,13 +80,14 @@ function AdminCalendar(props) {
         image: e.target.image.value,
       })
       .then((res) => {
-        const { data } = res
+        const { data } = res;
+        // map new concert to fullcalendar entriy
         const newConcert = {
           resourceId: data.stage,
           title: data.bandname,
           start: data.starttime,
           end: data.endtime,
-        }; 
+        };
 
         updateConcerts([newConcert, ...concerts]);
         updateError(null);
@@ -105,6 +111,24 @@ function AdminCalendar(props) {
         <Typography component="h1" variant="h5">
           {stage.name} - Concerts
         </Typography>
+        <FullCalendar
+          plugins={[
+            resourceTimeGridPlugin,
+            scrollGridPlugin,
+            interactionPlugin,
+          ]}
+          initialView="resourceTimeGrid"
+          validRange={{ start: festivalStart, end: festivalEnd }}
+          visibleRange={{ start: festivalStart, end: festivalEnd }}
+          headerToolbar={{ start: "", center: "title", end: "" }}
+          allDaySlot={false}
+          dayMinWidth={260}
+          height={"auto"}
+          resources={[{ id: stage.id, title: " " }]}
+          events={concerts}
+          dateClick={handleDateClick}
+        />
+        {/* render new form as overlay */}
         <ThemeProvider theme={{}}>
           <ModalProvider>
             <StyledModal
@@ -113,30 +137,15 @@ function AdminCalendar(props) {
               onEscapeKeydown={toggleNewForm}
             >
               <ConcertNewForm
-                onSubmit={handleNewConcert}
+                festivalStart={festivalStart}
+                festivalEnd={festivalEnd}
                 dateOnNew={dateOnNew}
+                onSubmit={handleNewConcert}
                 error={error}
               />
             </StyledModal>
           </ModalProvider>
         </ThemeProvider>
-        <FullCalendar
-          plugins={[
-            resourceTimeGridPlugin,
-            scrollGridPlugin,
-            interactionPlugin,
-          ]}
-          initialView="resourceTimeGrid"
-          validRange={festivalDateRange}
-          visibleRange={festivalDateRange}
-          headerToolbar={headerToolbar}
-          allDaySlot={false}
-          dayMinWidth={260}
-          height={"auto"}
-          resources={[{ id: stage.id, title: " " }]}
-          dateClick={handleDateClick}
-          events={concerts}
-        />
       </Grid>
     </Grid>
   );
