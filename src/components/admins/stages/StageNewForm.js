@@ -2,19 +2,6 @@ import React from "react";
 import { makeStyles, Button, TextField } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
-const useStyles = makeStyles((theme) => ({
-  alert: {
-    marginBottom: theme.spacing(3),
-  },
-  form: {
-    width: "100%",
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
 function StageNewForm(props) {
   const { handleSubmit, error } = props;
   const classes = useStyles();
@@ -47,5 +34,18 @@ function StageNewForm(props) {
     </form>
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  alert: {
+    marginBottom: theme.spacing(3),
+  },
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
 export default StageNewForm;

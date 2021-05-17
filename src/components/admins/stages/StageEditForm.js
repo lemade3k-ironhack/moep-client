@@ -2,19 +2,6 @@ import React, { useState } from 'react'
 import { makeStyles, Button, TextField } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
-const useStyles = makeStyles((theme) => ({
-  alert: {
-    marginBottom: theme.spacing(3),
-  },
-  form: {
-    width: "100%",
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
 function StageEditForm(props) {
   const [stage, updateStage] = useState(props.stage)
   const { error, onEdit } = props;
@@ -58,5 +45,18 @@ function StageEditForm(props) {
     </>
   )
 }
+
+const useStyles = makeStyles((theme) => ({
+  alert: {
+    marginBottom: theme.spacing(3),
+  },
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
 export default StageEditForm

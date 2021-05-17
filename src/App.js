@@ -3,12 +3,22 @@ import config from "./config";
 import { React, useState, useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import {
+<<<<<<< HEAD
    SignUp,
    SignIn,
    AdminDashboard,
    UserDashboard,
    ConcertList,
    ConcertDetail,
+=======
+  SignUp,
+  SignIn,
+  AdminDashboard,
+  AdminCalendar,
+  UserDashboard,
+  ConcertList,
+  ConcertDetail,
+>>>>>>> 69bf4b81992c5be94c8fc0fd50dead90a38aeb23
 } from "./components";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -66,6 +76,7 @@ function App(props) {
          passwordConfirmation: passwordConfirmation.value,
       };
 
+<<<<<<< HEAD
       axios
          .post(`${config.API_URL}/api/auth/signup`, newUser, {
             withCredentials: true,
@@ -77,6 +88,19 @@ function App(props) {
          })
          .catch((err) => updateError(err.response.data));
    };
+=======
+    axios
+      .post(`${config.API_URL}/api/auth/signup`, newUser, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        updateUser(res.data);
+        updateError(null);
+        updateRedirectPath("userDashboard");
+      })
+      .catch((err) => updateError(err.response.data));
+  };
+>>>>>>> 69bf4b81992c5be94c8fc0fd50dead90a38aeb23
 
    const handleSignIn = (e) => {
       e.preventDefault();
@@ -107,6 +131,7 @@ function App(props) {
 
    if (fetchingUser) return <CircularProgress />;
 
+<<<<<<< HEAD
    return (
       <>
          <Switch>
@@ -151,6 +176,58 @@ function App(props) {
          </Switch>
       </>
    );
+=======
+  return (
+    <>
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={() => {
+            return <SignIn error={error} onSubmit={handleSignIn} />;
+          }}
+        />
+        <Route
+          path="/signup"
+          render={() => {
+            return <SignUp error={error} onSubmit={handleSignUp} />;
+          }}
+        />
+        <Route
+          path="/welcome"
+          render={() => {
+            return <UserDashboard user={user} />;
+          }}
+        />
+        <Route
+          path="/concerts"
+          render={() => {
+            return <ConcertList concerts={concerts} user={user} />;
+          }}
+        />
+        <Route
+          path="/concerts/:concertId"
+          render={(routeProps) => {
+            return <ConcertDetail user={user} {...routeProps} />;
+          }}
+        />
+        <Route
+          exact
+          path="/admin"
+          render={() => {
+            return <AdminDashboard user={user} />;
+          }}
+        />
+        <Route
+          path="/admin/:stageName/calendar"
+          render={(routeProps) => {
+            return <AdminCalendar user={user} {...routeProps} />;
+          }}
+         />
+      </Switch>
+    </>
+  );
+>>>>>>> 69bf4b81992c5be94c8fc0fd50dead90a38aeb23
 }
 
 export default withRouter(App);

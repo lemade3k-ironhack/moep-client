@@ -6,14 +6,6 @@ import { Grid, CircularProgress } from "@material-ui/core/";
 import { StageList } from "../index";
 import { Redirect } from "react-router";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: theme.spacing(2),
-    margin: "auto",
-    maxWidth: 1200,
-  },
-}));
-
 function AdminDashboard(props) {
   const { user } = props;
   const [stages, updateStages] = useState([]);
@@ -28,7 +20,7 @@ function AdminDashboard(props) {
     });
   }, []);
 
-  const handleNew = (name) => {
+  const handleNewStage = (name) => {
     axios
       .post(`${config.API_URL}/api/stage/create`, { name })
       .then((res) => {
@@ -84,7 +76,7 @@ function AdminDashboard(props) {
     <Grid className={classes.container} container spacing={3}>
       <Grid item xs={12}>
         <StageList
-          onNew={handleNew}
+          onNew={handleNewStage}
           showNewForm={showNewForm}
           handleShowNewForm={handleShowNewForm}
           onEdit={handleEdit}
@@ -96,5 +88,13 @@ function AdminDashboard(props) {
     </Grid>
   );
 }
+  
+const useStyles = makeStyles((theme) => ({
+  container: {
+    padding: theme.spacing(2),
+    margin: "auto",
+    maxWidth: 1200,
+  },
+}));
 
 export default AdminDashboard;
