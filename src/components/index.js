@@ -11,5 +11,6 @@ export { default as StageNewForm } from "./admins/stages/StageNewForm"
 export { default as StageEditForm } from "./admins/stages/StageEditForm"
 
 export { default as AdminCalendar} from "./admins/calendar/AdminCalendar"
+export { default as ConcertNewForm } from "./admins/calendar/ConcertNewForm"
 
 // export user components

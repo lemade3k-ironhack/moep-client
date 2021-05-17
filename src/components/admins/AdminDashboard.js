@@ -20,7 +20,7 @@ function AdminDashboard(props) {
     });
   }, []);
 
-  const handleNew = (name) => {
+  const handleNewStage = (name) => {
     axios
       .post(`${config.API_URL}/api/stage/create`, { name })
       .then((res) => {
@@ -76,7 +76,7 @@ function AdminDashboard(props) {
     <Grid className={classes.container} container spacing={3}>
       <Grid item xs={12}>
         <StageList
-          onNew={handleNew}
+          onNew={handleNewStage}
           showNewForm={showNewForm}
           handleShowNewForm={handleShowNewForm}
           onEdit={handleEdit}
