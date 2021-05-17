@@ -14,15 +14,17 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { ConcertNewForm } from "../../index";
+import { ConcertNewForm, AdminConcertDetail } from "../../index";
 
 function AdminCalendar(props) {
+  const { user } = props;
   const [stage, updateStage] = useState({});
   const [error, updateError] = useState(null);
   const [concerts, updateConcerts] = useState([]);
   const [newFormOpen, updateNewFormOpen] = useState(false);
   const [dateOnNew, updateDateOnNew] = useState("");
-  const { user } = props;
+  const [showOpen, updateShowOpen] = useState(false);
+  const [concert, updateConcert] = useState(null);
   const classes = useStyles();
   const festivalStart = "2021-06-01";
   const festivalEnd = "2021-06-05";
@@ -98,6 +100,21 @@ function AdminCalendar(props) {
       });
   };
 
+  // helper function to toggle overlay
+  const toggleShowOpen = () => {
+    updateShowOpen(!showOpen);
+  };
+
+  // get concert when calender event is clicked
+  const handleEventClick = (calendar) => {
+    const bandname = calendar.event._def.title;
+
+    axios.get(`${config.API_URL}/api/concerts/${bandname}`).then((res) => {
+      updateConcert(res.data);
+      toggleShowOpen();
+    });
+  };
+
   if (!user) {
     return <Redirect to={"/"} />;
   } else if (user.role !== "admin") {
@@ -127,6 +144,7 @@ function AdminCalendar(props) {
           resources={[{ id: stage.id, title: " " }]}
           events={concerts}
           dateClick={handleDateClick}
+          eventClick={handleEventClick}
         />
         {/* render new form as overlay */}
         <ThemeProvider theme={{}}>
@@ -142,6 +160,21 @@ function AdminCalendar(props) {
                 dateOnNew={dateOnNew}
                 onSubmit={handleNewConcert}
                 error={error}
+              />
+            </StyledModal>
+          </ModalProvider>
+        </ThemeProvider>
+        {/* render show concert details as overlay */}
+        <ThemeProvider theme={{}}>
+          <ModalProvider>
+            <StyledModal
+              isOpen={showOpen}
+              onBackgroundClick={toggleShowOpen}
+              onEscapeKeydown={toggleShowOpen}
+            >
+              <AdminConcertDetail
+                stageName={stage.name}
+                concert={concert}
               />
             </StyledModal>
           </ModalProvider>
