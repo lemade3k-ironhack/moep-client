@@ -14,29 +14,27 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
 import { ConcertNewForm } from "../../index";
 
 function AdminCalendar(props) {
   const [stage, updateStage] = useState({});
   const [error, updateError] = useState(null);
   const [concerts, updateConcerts] = useState([]);
+  const [dateOnNew, updateDateOnNew] = useState("");
   const { user } = props;
   const classes = useStyles();
 
   // calendar settings
   const festivalDateRange = { start: "2021-06-01", end: "2021-06-05" };
-  const headerToolbar = { start: "", center: "title", end: "addEventButton" };
+  const headerToolbar = { start: "", center: "title", end: "" };
 
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleModal = () => { setIsOpen(!isOpen) };
-  const addBtn = {
-    addEventButton: {
-      text: "Add Concert",
-      click: () => {
-        toggleModal();
-      },
-    },
+  const [newFormOpen, updateNewFormOpen] = useState(false);
+  const toggleNewForm = () => {
+    updateNewFormOpen(!newFormOpen);
+  };
+  const handleDateClick = (calendar) => {
+    updateDateOnNew(calendar.dateStr);
+    toggleNewForm();
   };
 
   useEffect(() => {
@@ -64,28 +62,26 @@ function AdminCalendar(props) {
   }, []);
 
   const handleNewConcert = (e) => {
-    const newConcert = {
-      bandname: e.target.bandname.value,
-      day: e.target.day.value,
-      starttime: e.target.starttime.value,
-      endtime: e.target.endtime.value,
-      description: e.target.description.value,
-      image: e.target.image.value,
-    };
+    e.preventDefault();
+    const starttime = new Date(`${e.target.day.value}T${e.target.starttime.value}`)
+    const endtime = new Date(`${e.target.day.value}T${e.target.endtime.value}`)
 
     axios
       .post(`${config.API_URL}/api/stages/${stage.id}/concerts/create`, {
-        newConcert
+        bandname: e.target.bandname.value,
+        starttime: starttime,
+        endtime: endtime,
+        description: e.target.description.value,
+        image: e.target.image.value,
       })
       .then((res) => {
-        console.log(res);
         updateConcerts([res.data, ...concerts]);
         updateError(null);
+        toggleNewForm();
       })
       .catch((err) => {
-        updateError(err.response.data)
+        updateError(err.response.data);
       });
-
   };
 
   if (!user) {
@@ -101,16 +97,18 @@ function AdminCalendar(props) {
         <Typography component="h1" variant="h5">
           {stage.name} - Concerts
         </Typography>
-        {error && <Alert severity="error">{error.errorMessage}</Alert>}
-
         <ThemeProvider theme={{}}>
           <ModalProvider>
             <StyledModal
-              isOpen={isOpen}
-              onBackgroundClick={toggleModal}
-              onEscapeKeydown={toggleModal}
+              isOpen={newFormOpen}
+              onBackgroundClick={toggleNewForm}
+              onEscapeKeydown={toggleNewForm}
             >
-              <ConcertNewForm onSubmit={handleNewConcert} isOpen={isOpen} error={error} />
+              <ConcertNewForm
+                onSubmit={handleNewConcert}
+                dateOnNew={dateOnNew}
+                error={error}
+              />
             </StyledModal>
           </ModalProvider>
         </ThemeProvider>
@@ -127,9 +125,9 @@ function AdminCalendar(props) {
           allDaySlot={false}
           dayMinWidth={260}
           height={"auto"}
-          resources={[{ id: stage._id, title: " " }]}
+          resources={[{ id: stage.id, title: " " }]}
+          dateClick={handleDateClick}
           events={concerts}
-          customButtons={addBtn}
         />
       </Grid>
     </Grid>

@@ -7,9 +7,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
+import moment from "moment";
 
 function ConcertNewForm(props) {
-  const { onSubmit, error } = props;
+  const { dateOnNew, onSubmit, error } = props;
   const classes = useStyles();
   
   return (
@@ -36,9 +37,9 @@ function ConcertNewForm(props) {
           name="day"
           label="Day"
           type="date"
-          defaultValue="2021-06-01"
           className={classes.picker}
           variant="outlined"
+          defaultValue={moment(dateOnNew).format("yyyy-MM-DD")}
           required
           InputLabelProps={{
             shrink: true,
@@ -49,7 +50,7 @@ function ConcertNewForm(props) {
           name="starttime"
           label="Start time"
           type="time"
-          defaultValue="14:00"
+          defaultValue={moment(dateOnNew).format("hh:mm:ss")}
           className={classes.picker}
           variant="outlined"
           required
@@ -64,7 +65,7 @@ function ConcertNewForm(props) {
           name="endtime"
           label="Endtime time"
           type="time"
-          defaultValue="16:00"
+          defaultValue={moment(dateOnNew).add(2, "h").format("hh:mm:ss")}
           className={classes.picker}
           variant="outlined"
           required

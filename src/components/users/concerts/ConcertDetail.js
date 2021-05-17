@@ -14,8 +14,6 @@ import {
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import moment from "moment";
-import { red } from "@material-ui/core/colors";
-import { FullscreenExit } from "@material-ui/icons";
 
 function ConcertDetail(props) {
    const { concert } = props;
@@ -25,12 +23,11 @@ function ConcertDetail(props) {
    const handleExpandClick = () => {
       setExpanded(!expanded);
    };
-   //playtime= day, playtime2= day + time + stage
-   //  const playtime = moment(concert.day).format("dddd");
-   const playtime2 =
-      moment(concert.day).format("dddd") +
+
+   const playtime =
+      moment(concert.starttime).format("dddd") +
       " " +
-      moment(concert.day).format("LT") +
+      moment(concert.starttime).format("LT") +
       " - " +
       concert.stage.name;
 
@@ -45,7 +42,7 @@ function ConcertDetail(props) {
                   </IconButton>
                }
                title={concert.bandname}
-               subheader={playtime2}
+               subheader={playtime}
             />
             <CardActions disableSpacing>
                <IconButton
