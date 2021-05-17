@@ -2,37 +2,54 @@ import axios from "axios";
 import config from "./config";
 import { React, useState, useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import { SignUp, SignIn } from "./components";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import {
+  SignUp,
+  SignIn,
+  AdminDashboard,
+  UserDashboard,
+  ConcertList,
+  ConcertDetail,
+} from "./components";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function App(props) {
   const [user, updateUser] = useState(null);
-  const [fetchingUser, updateFetchingUser] = useState(true)  
+  const [fetchingUser, updateFetchingUser] = useState(true);
+  const [redirectPath, updateRedirectPath] = useState(null);
   const [error, updateError] = useState(null);
+  const [concerts, updateConcerts] = useState([]);
+  const { history } = props;
 
-  // check session and redirect
+  // handle redirects
   useEffect(() => {
-    if (!user) {
-      props.history.push("/")
-      updateError({errorMessage: "Please sign in!"});
-    } else if (user.role === "admin") {
-      props.history.push("/admin")
-    } else {
-      props.history.push('/welcome')
+    if (redirectPath === "signin") {
+      history.push("/");
+    } else if (redirectPath === "adminDashboard") {
+      history.push("/admin");
+    } else if (redirectPath === "userDashboard") {
+      history.push("/welcome");
     }
-  }, [user])
+  }, [history, redirectPath]);
 
   // fetch user on mount
   useEffect(() => {
-    axios.get(`${config.API_URL}/api/auth/user`, {withCredentials: true}) 
+    // check if user has a session
+    axios
+      .get(`${config.API_URL}/api/auth/user`, { withCredentials: true })
       .then((res) => {
-        updateUser(res.data)
-        updateFetchingUser(false)
+        updateUser(res.data);
+        updateFetchingUser(false);
       })
       .catch(() => {
-        updateFetchingUser(false)
-      })
-  }, [])
+        updateFetchingUser(false);
+        updateRedirectPath("signin");
+      });
+
+    // get all concerts
+    axios.get("http://localhost:5005/api/concerts").then((response) => {
+      updateConcerts(response.data);
+    });
+  }, []);
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -50,10 +67,9 @@ function App(props) {
       .then((response) => {
         updateUser(response.data);
         updateError(null);
+        updateRedirectPath("userDashboard");
       })
-      .catch((err) => {
-        updateError(err.response.data);
-      });
+      .catch((err) => updateError(err.response.data));
   };
 
   const handleSignIn = (e) => {
@@ -65,20 +81,25 @@ function App(props) {
     };
 
     axios
-      .post(`${config.API_URL}/api/auth/signin`, user, { withCredentials: true })
-      .then((response) => {
-        updateUser(response.data);
+      .post(`${config.API_URL}/api/auth/signin`, user, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        updateUser(res.data);
         updateError(null);
+
+        if (res.data.role === "admin") {
+          updateRedirectPath("adminDashboard");
+        } else {
+          updateRedirectPath("userDashboard");
+        }
       })
       .catch((err) => {
         updateError(err.response.data);
       });
   };
 
-
-  if(fetchingUser){
-    return <CircularProgress />
-  }
+  if (fetchingUser) return <CircularProgress />;
 
   return (
     <>
@@ -86,18 +107,39 @@ function App(props) {
         <Route
           exact
           path="/"
-          render={(routeProps) => {
-            return (
-              <SignIn error={error} onSubmit={handleSignIn} {...routeProps} />
-            );
+          render={() => {
+            return <SignIn error={error} onSubmit={handleSignIn} />;
           }}
         />
         <Route
           path="/signup"
+          render={() => {
+            return <SignUp error={error} onSubmit={handleSignUp} />;
+          }}
+        />
+        <Route
+          path="/concerts/:concertId"
           render={(routeProps) => {
-            return (
-              <SignUp error={error} onSubmit={handleSignUp} {...routeProps} />
-            );
+            return <ConcertDetail user={user} {...routeProps} />;
+          }}
+        />
+        <Route
+          path="/concerts"
+          render={() => {
+            return <ConcertList concerts={concerts} user={user} />;
+          }}
+        />
+        <Route
+          path="/welcome"
+          render={() => {
+            return <UserDashboard user={user} />;
+          }}
+        />
+        <Route
+          exact
+          path="/admin"
+          render={() => {
+            return <AdminDashboard user={user} />;
           }}
         />
       </Switch>
