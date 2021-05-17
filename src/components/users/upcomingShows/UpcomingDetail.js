@@ -3,12 +3,11 @@ import moment from 'moment'
 
 function UpcomingDetail(props) {
   const { concert } = props
-
   return (
     <div>
       <img
         width="300px"
-        alt={`${concert.title}-image`}
+        alt={`${concert.bandname}-image`}
         src={concert.image}
       />
       <div>

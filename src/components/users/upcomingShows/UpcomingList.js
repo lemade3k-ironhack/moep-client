@@ -1,16 +1,12 @@
-import React, { useState } from "react";
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ThemeProvider,
-} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { List, ListItem, ListItemText } from "@material-ui/core";
 import moment from "moment";
 import Modal, { ModalProvider } from "styled-react-modal";
-import { UpcomingDetail } from "../../index";
+import { ConcertDetail } from "../../index";
 
 function UpcomingList(props) {
   const { concerts } = props;
+  const [concert, updateConcert] = useState(null);
   const [showOpen, updateShowOpen] = useState(false);
 
   // helper function to toggle overlay
@@ -18,16 +14,23 @@ function UpcomingList(props) {
     updateShowOpen(!showOpen);
   };
 
-  const handleClick = () => {
+  // handle Click on ListItem
+  const handleClick = (concert) => {
+    updateConcert(concert);
     toggleShowOpen();
   };
 
   return (
-    <List>
-      {concerts.map((concert, i) => {
-        return (
-          <div key={i}>
-            <ListItem onClick={handleClick}>
+    <>
+      <List>
+        {concerts.map((concert, i) => {
+          return (
+            <ListItem
+              key={i}
+              onClick={() => {
+                handleClick(concert);
+              }}
+            >
               <ListItemText
                 primary={concert.bandname}
                 secondary={`${moment(concert.starttime).format(
@@ -37,22 +40,22 @@ function UpcomingList(props) {
                 }`}
               />
             </ListItem>
-            {/* render show concert details as overlay */}
-            <ThemeProvider theme={{}}>
-              <ModalProvider>
-                <StyledModal
-                  isOpen={showOpen}
-                  onBackgroundClick={toggleShowOpen}
-                  onEscapeKeydown={toggleShowOpen}
-                >
-                   <UpcomingDetail concert={concert}/>
-                </StyledModal>
-              </ModalProvider>
-            </ThemeProvider>
-          </div>
-        );
-      })}
-    </List>
+          );
+        })}
+      </List>
+      {/* render show concert details as overlay */}
+      {concert && (
+        <ModalProvider>
+          <StyledModal
+            isOpen={showOpen}
+            onBackgroundClick={toggleShowOpen}
+            onEscapeKeydown={toggleShowOpen}
+          >
+            <ConcertDetail concert={concert} />
+          </StyledModal>
+        </ModalProvider>
+      )}
+    </>
   );
 }
 
