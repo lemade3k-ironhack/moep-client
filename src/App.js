@@ -6,6 +6,7 @@ import {
   SignUp,
   SignIn,
   AdminDashboard,
+  AdminCalendar,
   UserDashboard,
   ConcertList,
   ConcertDetail,
@@ -64,8 +65,8 @@ function App(props) {
       .post(`${config.API_URL}/api/auth/signup`, newUser, {
         withCredentials: true,
       })
-      .then((response) => {
-        updateUser(response.data);
+      .then((res) => {
+        updateUser(res.data);
         updateError(null);
         updateRedirectPath("userDashboard");
       })
@@ -118,9 +119,9 @@ function App(props) {
           }}
         />
         <Route
-          path="/concerts/:concertId"
-          render={(routeProps) => {
-            return <ConcertDetail user={user} {...routeProps} />;
+          path="/welcome"
+          render={() => {
+            return <UserDashboard user={user} />;
           }}
         />
         <Route
@@ -130,9 +131,9 @@ function App(props) {
           }}
         />
         <Route
-          path="/welcome"
-          render={() => {
-            return <UserDashboard user={user} />;
+          path="/concerts/:concertId"
+          render={(routeProps) => {
+            return <ConcertDetail user={user} {...routeProps} />;
           }}
         />
         <Route
@@ -142,6 +143,12 @@ function App(props) {
             return <AdminDashboard user={user} />;
           }}
         />
+        <Route
+          path="/admin/:stageName/calendar"
+          render={(routeProps) => {
+            return <AdminCalendar user={user} {...routeProps} />;
+          }}
+         />
       </Switch>
     </>
   );
