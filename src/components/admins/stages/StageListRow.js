@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { TableRow, TableCell, Link } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { TableRow, TableCell } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { StageEditForm } from "../../index";

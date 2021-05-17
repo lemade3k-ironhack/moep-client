@@ -26,7 +26,7 @@ function StageList(props) {
     e.preventDefault();
     onNew(e.target.name.value);
   };
-
+  
   return (
     <>
       <Typography component="h1" variant="h5">
