@@ -6,8 +6,8 @@ function ConcertList(props) {
 
   return (
     <>
-      {concerts.map((concert) => {
-        return <ConcertDetail concert={concert} />;
+      {concerts.map((concert, i) => {
+        return <ConcertDetail key={i} concert={concert} />;
       })}
     </>
   );
