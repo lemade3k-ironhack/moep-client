@@ -20,6 +20,7 @@ function AdminCalendar(props) {
   const [stage, updateStage] = useState({});
   const [error, updateError] = useState(null);
   const [concerts, updateConcerts] = useState([]);
+  const [newFormOpen, updateNewFormOpen] = useState(false);
   const [dateOnNew, updateDateOnNew] = useState("");
   const { user } = props;
   const classes = useStyles();
@@ -27,15 +28,6 @@ function AdminCalendar(props) {
   // calendar settings
   const festivalDateRange = { start: "2021-06-01", end: "2021-06-05" };
   const headerToolbar = { start: "", center: "title", end: "" };
-
-  const [newFormOpen, updateNewFormOpen] = useState(false);
-  const toggleNewForm = () => {
-    updateNewFormOpen(!newFormOpen);
-  };
-  const handleDateClick = (calendar) => {
-    updateDateOnNew(calendar.dateStr);
-    toggleNewForm();
-  };
 
   useEffect(() => {
     let stageName = props.match.params.stageName;
@@ -61,6 +53,14 @@ function AdminCalendar(props) {
       .catch((err) => updateError(err.response.data));
   }, []);
 
+  const toggleNewForm = () => {
+    updateNewFormOpen(!newFormOpen);
+  };
+  const handleDateClick = (calendar) => {
+    updateDateOnNew(calendar.dateStr);
+    toggleNewForm();
+  };
+  
   const handleNewConcert = (e) => {
     e.preventDefault();
     const starttime = new Date(`${e.target.day.value}T${e.target.starttime.value}`)
@@ -75,7 +75,15 @@ function AdminCalendar(props) {
         image: e.target.image.value,
       })
       .then((res) => {
-        updateConcerts([res.data, ...concerts]);
+        const { data } = res
+        const newConcert = {
+          resourceId: data.stage,
+          title: data.bandname,
+          start: data.starttime,
+          end: data.endtime,
+        }; 
+
+        updateConcerts([newConcert, ...concerts]);
         updateError(null);
         toggleNewForm();
       })
