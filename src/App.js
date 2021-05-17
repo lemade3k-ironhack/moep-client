@@ -102,6 +102,21 @@ function App(props) {
 
   if (fetchingUser) return <CircularProgress />;
 
+  const handleLogout = () => {
+    axios
+      .get(`${config.API_URL}/api/auth/logout`, { withCredentials: true })
+      .then(() => {
+        this.setState({
+          user: null,
+        });
+      })
+      .catch((errorObj) => {
+        this.setState({
+          error: errorObj.response.data,
+        });
+      });
+  };
+
   return (
     <>
       <Switch>
@@ -148,7 +163,7 @@ function App(props) {
           render={(routeProps) => {
             return <AdminCalendar user={user} {...routeProps} />;
           }}
-         />
+        />
       </Switch>
     </>
   );
