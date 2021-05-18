@@ -20,4 +20,7 @@ export { default as UpcomingList } from "./users/upcomingShows/UpcomingList";
 export { default as ConcertList } from "./users/concerts/ConcertList";
 export { default as ConcertDetail } from "./users/concerts/ConcertDetail";
 
-export { default as Calendar } from "./users/calendar/Calendar"
+export { default as Calendar } from "./users/calendar/Calendar";
+
+//export notFound components
+export { default as NotFound } from "./notFound/NotFound";
