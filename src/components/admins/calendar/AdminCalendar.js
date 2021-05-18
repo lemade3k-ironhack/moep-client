@@ -7,28 +7,28 @@ import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import scrollGridPlugin from "@fullcalendar/scrollgrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Modal, { ModalProvider } from "styled-react-modal";
-import { ThemeProvider } from "styled-components";
 import {
   CircularProgress,
   Grid,
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { ConcertNewForm } from "../../index";
+import { ConcertNewForm, AdminConcertDetail } from "../../index";
 
 function AdminCalendar(props) {
+  const { user } = props;
   const [stage, updateStage] = useState({});
   const [error, updateError] = useState(null);
   const [concerts, updateConcerts] = useState([]);
   const [newFormOpen, updateNewFormOpen] = useState(false);
   const [dateOnNew, updateDateOnNew] = useState("");
-  const { user } = props;
+  const [showOpen, updateShowOpen] = useState(false);
+  const [concert, updateConcert] = useState(null);
   const classes = useStyles();
+  const festivalStart = "2021-06-01";
+  const festivalEnd = "2021-06-05";
 
-  // calendar settings
-  const festivalDateRange = { start: "2021-06-01", end: "2021-06-05" };
-  const headerToolbar = { start: "", center: "title", end: "" };
-
+  // get all concerts on mount
   useEffect(() => {
     let stageName = props.match.params.stageName;
 
@@ -53,18 +53,24 @@ function AdminCalendar(props) {
       .catch((err) => updateError(err.response.data));
   }, []);
 
+  // helper function to toggle overlay
   const toggleNewForm = () => {
     updateNewFormOpen(!newFormOpen);
   };
+
+  // toggle new form when calendar date is clicked
   const handleDateClick = (calendar) => {
     updateDateOnNew(calendar.dateStr);
     toggleNewForm();
   };
-  
+
+  // create new concert after submitting the form
   const handleNewConcert = (e) => {
     e.preventDefault();
-    const starttime = new Date(`${e.target.day.value}T${e.target.starttime.value}`)
-    const endtime = new Date(`${e.target.day.value}T${e.target.endtime.value}`)
+    const starttime = new Date(
+      `${e.target.day.value}T${e.target.starttime.value}`
+    );
+    const endtime = new Date(`${e.target.day.value}T${e.target.endtime.value}`);
 
     axios
       .post(`${config.API_URL}/api/stages/${stage.id}/concerts/create`, {
@@ -75,13 +81,14 @@ function AdminCalendar(props) {
         image: e.target.image.value,
       })
       .then((res) => {
-        const { data } = res
+        const { data } = res;
+        // map new concert to fullcalendar entriy
         const newConcert = {
           resourceId: data.stage,
           title: data.bandname,
           start: data.starttime,
           end: data.endtime,
-        }; 
+        };
 
         updateConcerts([newConcert, ...concerts]);
         updateError(null);
@@ -90,6 +97,35 @@ function AdminCalendar(props) {
       .catch((err) => {
         updateError(err.response.data);
       });
+  };
+
+  // helper function to toggle overlay
+  const toggleShowOpen = () => {
+    updateShowOpen(!showOpen);
+  };
+
+  // get concert when calender event is clicked
+  const handleEventClick = (calendar) => {
+    const bandname = calendar.event._def.title;
+
+    axios.get(`${config.API_URL}/api/concerts/${bandname}`).then((res) => {
+      updateConcert(res.data);
+      toggleShowOpen();
+    });
+  };
+
+  const handleDelete = (concertId) => {
+    axios
+      .delete(`${config.API_URL}/api/concerts/${concertId}/delete`)
+      .then((deleted) => {
+        let filtered = concerts.filter(
+          (concert) => concert.title !== deleted.bandname
+        );
+        updateConcerts(filtered);
+        updateError(null);
+        toggleShowOpen();
+      })
+      .catch((err) => updateError(err.response.data));
   };
 
   if (!user) {
@@ -105,21 +141,6 @@ function AdminCalendar(props) {
         <Typography component="h1" variant="h5">
           {stage.name} - Concerts
         </Typography>
-        <ThemeProvider theme={{}}>
-          <ModalProvider>
-            <StyledModal
-              isOpen={newFormOpen}
-              onBackgroundClick={toggleNewForm}
-              onEscapeKeydown={toggleNewForm}
-            >
-              <ConcertNewForm
-                onSubmit={handleNewConcert}
-                dateOnNew={dateOnNew}
-                error={error}
-              />
-            </StyledModal>
-          </ModalProvider>
-        </ThemeProvider>
         <FullCalendar
           plugins={[
             resourceTimeGridPlugin,
@@ -127,16 +148,47 @@ function AdminCalendar(props) {
             interactionPlugin,
           ]}
           initialView="resourceTimeGrid"
-          validRange={festivalDateRange}
-          visibleRange={festivalDateRange}
-          headerToolbar={headerToolbar}
+          validRange={{ start: festivalStart, end: festivalEnd }}
+          visibleRange={{ start: festivalStart, end: festivalEnd }}
+          headerToolbar={{ start: "", center: "title", end: "" }}
           allDaySlot={false}
           dayMinWidth={260}
           height={"auto"}
           resources={[{ id: stage.id, title: " " }]}
-          dateClick={handleDateClick}
           events={concerts}
+          dateClick={handleDateClick}
+          eventClick={handleEventClick}
         />
+        {/* render new form as overlay */}
+        <ModalProvider>
+          <StyledModal
+            isOpen={newFormOpen}
+            onBackgroundClick={toggleNewForm}
+            onEscapeKeydown={toggleNewForm}
+          >
+            <ConcertNewForm
+              festivalStart={festivalStart}
+              festivalEnd={festivalEnd}
+              dateOnNew={dateOnNew}
+              onSubmit={handleNewConcert}
+              error={error}
+            />
+          </StyledModal>
+        </ModalProvider>
+        {/* render show concert details as overlay */}
+        <ModalProvider>
+          <StyledModal
+            isOpen={showOpen}
+            onBackgroundClick={toggleShowOpen}
+            onEscapeKeydown={toggleShowOpen}
+          >
+            <AdminConcertDetail
+              stageName={stage.name}
+              concert={concert}
+              onDelete={handleDelete}
+            />
+          </StyledModal>
+        </ModalProvider>
       </Grid>
     </Grid>
   );

@@ -9,7 +9,7 @@ import {
   AdminCalendar,
   UserDashboard,
   ConcertList,
-  ConcertDetail,
+  Calendar,
 } from "./components";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -20,6 +20,9 @@ function App(props) {
   const [redirectPath, updateRedirectPath] = useState(null);
   const [error, updateError] = useState(null);
   const [concerts, updateConcerts] = useState([]);
+  const [favorites, updateFavorites] = useState([]);
+  const [calendarStages, updateCalendarStages] = useState([]);
+  const [calendarEvents, updateCalendarEvents] = useState([]);
   const { history } = props;
 
   // handle redirects
@@ -33,13 +36,14 @@ function App(props) {
     }
   }, [history, redirectPath]);
 
-  // fetch user on mount
+  // fetch data on mount
   useEffect(() => {
     // check if user has a session
     axios
-      .get(`${config.API_URL}/api/auth/user`, { withCredentials: true })
+      .get(`${config.API_URL}/api/user`, { withCredentials: true })
       .then((res) => {
         updateUser(res.data);
+        updateFavorites(res.data.concerts);
         updateFetchingUser(false);
       })
       .catch(() => {
@@ -47,9 +51,37 @@ function App(props) {
         updateRedirectPath("signin");
       });
 
+    // get all stages and map to fullcalendar resources
+    axios
+      .get(`${config.API_URL}/api/stages`)
+      .then((res) => {
+        updateCalendarStages(
+          res.data.map((stage) => {
+            return {
+              id: stage._id,
+              title: stage.name,
+            };
+          })
+        );
+      })
+      .catch((err) => updateError(err.response.data));
+
     // get all concerts
-    axios.get("http://localhost:5005/api/concerts").then((response) => {
-      updateConcerts(response.data);
+    axios.get(`${config.API_URL}/api/concerts`).then((res) => {
+      const concerts = res.data;
+
+      updateConcerts(concerts);
+      // map concerts also to fullcalendar entries
+      updateCalendarEvents(
+        concerts.map((concert) => {
+          return {
+            resourceId: concert.stage._id,
+            title: concert.bandname,
+            start: concert.starttime,
+            end: concert.endtime,
+          };
+        })
+      );
     });
   }, []);
 
@@ -114,7 +146,22 @@ function App(props) {
       });
   };
 
+  const handleUpdateFavorite = (concert) => {
+    axios
+      .post(
+        `${config.API_URL}/api/upcoming/update`,
+        { favorites, concert },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        updateFavorites(res.data);
+        updateError(null);
+      })
+      .catch((err) => updateError(err.response.data));
+  };
+
   if (fetchingUser) return <CircularProgress />;
+
   return (
     <>
       <Switch>
@@ -134,19 +181,43 @@ function App(props) {
         <Route
           path="/welcome"
           render={() => {
-            return <UserDashboard onLogout={handleLogout} user={user} />;
+            return (
+              <UserDashboard
+                user={user}
+                favorites={favorites}
+                updateFavorite={handleUpdateFavorite}
+                onLogout={handleLogout}
+              />
+            );
           }}
         />
         <Route
+          exact
           path="/concerts"
           render={() => {
-            return <ConcertList concerts={concerts} user={user} />;
+            return (
+              <ConcertList
+                user={user}
+                concerts={concerts}
+                favorites={favorites}
+                updateFavorite={handleUpdateFavorite}
+              />
+            );
           }}
         />
         <Route
-          path="/concerts/:concertId"
-          render={(routeProps) => {
-            return <ConcertDetail user={user} {...routeProps} />;
+          exact
+          path="/calendar"
+          render={() => {
+            return (
+              <Calendar
+                user={user}
+                stages={calendarStages}
+                concerts={calendarEvents}
+                favorites={favorites}
+                updateFavorite={handleUpdateFavorite}
+              />
+            );
           }}
         />
         <Route
