@@ -33,16 +33,16 @@ function AdminCalendar(props) {
     let stageName = props.match.params.stageName;
 
     axios
-      .get(`${config.API_URL}/api/stage/${stageName}`, {
-        withCredentials: true,
-      })
+      .get(`${config.API_URL}/api/stage/${stageName}`)
       .then((res) => {
-        updateStage(res.data);
+        const stage = res.data;
+
+        updateStage(stage);
         updateConcerts(
-          res.data.concerts.map((concert) => {
+          stage.concerts.map((concert) => {
             // map concerts to fullcalendar entries
             return {
-              resourceId: concert.stage,
+              resourceId: stage._id,
               title: concert.bandname,
               start: concert.starttime,
               end: concert.endtime,
@@ -73,7 +73,7 @@ function AdminCalendar(props) {
     const endtime = new Date(`${e.target.day.value}T${e.target.endtime.value}`);
 
     axios
-      .post(`${config.API_URL}/api/stages/${stage.id}/concerts/create`, {
+      .post(`${config.API_URL}/api/stages/${stage._id}/concerts/create`, {
         bandname: e.target.bandname.value,
         starttime: starttime,
         endtime: endtime,
@@ -81,13 +81,13 @@ function AdminCalendar(props) {
         image: e.target.image.value,
       })
       .then((res) => {
-        const { data } = res;
+        const concert = res.data;
         // map new concert to fullcalendar entriy
         const newConcert = {
-          resourceId: data.stage,
-          title: data.bandname,
-          start: data.starttime,
-          end: data.endtime,
+          resourceId: stage._id,
+          title: concert.bandname,
+          start: concert.starttime,
+          end: concert.endtime,
         };
 
         updateConcerts([newConcert, ...concerts]);
@@ -155,7 +155,7 @@ function AdminCalendar(props) {
           allDaySlot={false}
           dayMinWidth={260}
           height={"auto"}
-          resources={[{ id: stage.id, title: " " }]}
+          resources={[{ id: stage._id, title: " " }]}
           events={concerts}
           dateClick={handleDateClick}
           eventClick={handleEventClick}
