@@ -201,6 +201,7 @@ function App(props) {
                 concerts={concerts}
                 favorites={favorites}
                 updateFavorite={handleUpdateFavorite}
+                onLogout={handleLogout}
               />
             );
           }}
@@ -216,6 +217,7 @@ function App(props) {
                 concerts={calendarEvents}
                 favorites={favorites}
                 updateFavorite={handleUpdateFavorite}
+                onLogout={handleLogout}
               />
             );
           }}

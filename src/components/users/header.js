@@ -1,13 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  Navbar,
-  Nav,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button,
-} from "react-bootstrap";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 function Header(props) {
   const { onLogout } = props;
@@ -20,21 +13,18 @@ function Header(props) {
       <Nav className="mr-auto">
         <NavDropdown title="Menu" id="basic-nav-dropdown">
           <NavDropdown.Item>
-            <Link to="/timetable">Timetable</Link>
+            <Link to="/calendar">Timetable</Link>
           </NavDropdown.Item>
 
           <NavDropdown.Item>
             <Link to="/concerts">Lineup</Link>
           </NavDropdown.Item>
 
-          <NavDropdown.Item>
-            <Link to="/">generell Information</Link>
-          </NavDropdown.Item>
           <NavDropdown.Divider />
           <NavDropdown.Item>
-            <Button variant="outline-success" onClick={onLogout}>
+            <Link variant="outline-success" onClick={onLogout}>
               Logout
-            </Button>
+            </Link>
           </NavDropdown.Item>
         </NavDropdown>
       </Nav>

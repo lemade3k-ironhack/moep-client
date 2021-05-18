@@ -9,9 +9,10 @@ import scrollGridPlugin from "@fullcalendar/scrollgrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Modal, { ModalProvider } from "styled-react-modal";
 import ConcertDetail from "../concerts/ConcertDetail";
+import { Header } from "../..";
 
 function Calendar(props) {
-  const { user, stages, concerts, favorites, updateFavorite } = props;
+  const { user, stages, concerts, favorites, updateFavorite, onLogout } = props;
   const [showOpen, updateShowOpen] = useState(false);
   const [concert, updateConcert] = useState(null);
   const classes = useStyles();
@@ -37,6 +38,7 @@ function Calendar(props) {
 
   return (
     <Grid className={classes.container} container spacing={3}>
+      <Header onLogout={onLogout} />
       <Grid item xs={12}>
         <FullCalendar
           plugins={[

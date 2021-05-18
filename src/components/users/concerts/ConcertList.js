@@ -1,14 +1,15 @@
 import React from "react";
 import { Redirect } from "react-router";
-import { ConcertDetail } from "../../index";
+import { ConcertDetail, Header } from "../../index";
 
 function ConcertList(props) {
-  const { user, concerts, favorites, updateFavorite } = props;
+  const { user, concerts, favorites, updateFavorite, onLogout } = props;
 
   if (!user) return <Redirect to={"/"} />;
 
   return (
     <>
+      <Header onLogout={onLogout} />
       {concerts.map((concert, i) => {
         return (
           <ConcertDetail
