@@ -13,10 +13,10 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { ConcertNewForm, AdminConcertDetail } from "../../index";
+import { ConcertNewForm, AdminConcertDetail, AdminNavBar } from "../../index";
 
 function AdminCalendar(props) {
-  const { user } = props;
+  const { user, onLogout } = props;
   const [stage, updateStage] = useState({});
   const [error, updateError] = useState(null);
   const [concerts, updateConcerts] = useState([]);
@@ -137,6 +137,7 @@ function AdminCalendar(props) {
 
   return (
     <Grid className={classes.container} container spacing={3}>
+      <AdminNavBar onLogout={onLogout} />
       <Grid item xs={12}>
         <Typography component="h1" variant="h5">
           {stage.name} - Concerts

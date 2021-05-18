@@ -12,6 +12,7 @@ import {
   Calendar,
 } from "./components";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App(props) {
   const [user, updateUser] = useState(null);
@@ -132,6 +133,19 @@ function App(props) {
       });
   };
 
+  const handleLogout = (e) => {
+    e.preventDefault();
+    axios
+      .get(`${config.API_URL}/api/auth/logout`, { withCredentials: true })
+      .then(() => {
+        updateUser(null);
+        updateRedirectPath("signin");
+      })
+      .catch((err) => {
+        updateError(err.response.data);
+      });
+  };
+
   const handleUpdateFavorite = (concert) => {
     axios
       .post(
@@ -172,13 +186,14 @@ function App(props) {
                 user={user}
                 favorites={favorites}
                 updateFavorite={handleUpdateFavorite}
+                onLogout={handleLogout}
               />
             );
           }}
         />
         <Route
           exact
-          path="/concerts"
+          path="/lineup"
           render={() => {
             return (
               <ConcertList
@@ -186,13 +201,14 @@ function App(props) {
                 concerts={concerts}
                 favorites={favorites}
                 updateFavorite={handleUpdateFavorite}
+                onLogout={handleLogout}
               />
             );
           }}
         />
         <Route
           exact
-          path="/calendar"
+          path="/timetable"
           render={() => {
             return (
               <Calendar
@@ -201,6 +217,7 @@ function App(props) {
                 concerts={calendarEvents}
                 favorites={favorites}
                 updateFavorite={handleUpdateFavorite}
+                onLogout={handleLogout}
               />
             );
           }}
@@ -209,13 +226,13 @@ function App(props) {
           exact
           path="/admin"
           render={() => {
-            return <AdminDashboard user={user} />;
+            return <AdminDashboard user={user} onLogout={handleLogout} />;
           }}
         />
         <Route
           path="/admin/:stageName/calendar"
           render={(routeProps) => {
-            return <AdminCalendar user={user} {...routeProps} />;
+            return <AdminCalendar user={user} onLogout={handleLogout} {...routeProps} />;
           }}
         />
       </Switch>
