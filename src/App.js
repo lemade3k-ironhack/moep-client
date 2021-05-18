@@ -226,13 +226,13 @@ function App(props) {
           exact
           path="/admin"
           render={() => {
-            return <AdminDashboard user={user} />;
+            return <AdminDashboard user={user} onLogout={handleLogout} />;
           }}
         />
         <Route
           path="/admin/:stageName/calendar"
           render={(routeProps) => {
-            return <AdminCalendar user={user} {...routeProps} />;
+            return <AdminCalendar user={user} onLogout={handleLogout} {...routeProps} />;
           }}
         />
       </Switch>
