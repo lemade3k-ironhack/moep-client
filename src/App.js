@@ -10,6 +10,7 @@ import {
   UserDashboard,
   ConcertList,
   Calendar,
+  NotFound,
 } from "./components";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -235,6 +236,7 @@ function App(props) {
             return <AdminCalendar user={user} onLogout={handleLogout} {...routeProps} />;
           }}
         />
+        <Route component={NotFound} />
       </Switch>
     </>
   );
