@@ -1,7 +1,7 @@
 import axios from "axios";
 import config from "../../config";
 import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { UpcomingList } from "../index"
 import { Grid } from "@material-ui/core";
@@ -18,6 +18,8 @@ function UserDashboard(props) {
       updateUpcoming(response.data);
     });
   }, []);
+
+  if (!user) return <Redirect to={"/"} />;
 
   return (
     <Grid className={classes.container} container spacing={3}>
