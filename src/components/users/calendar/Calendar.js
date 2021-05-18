@@ -8,8 +8,7 @@ import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import scrollGridPlugin from "@fullcalendar/scrollgrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Modal, { ModalProvider } from "styled-react-modal";
-import ConcertDetail from "../concerts/ConcertDetail";
-import { Header } from "../..";
+import { UserNavBar, ConcertDetail } from "../../index";
 
 function Calendar(props) {
   const { user, stages, concerts, favorites, updateFavorite, onLogout } = props;
@@ -38,7 +37,7 @@ function Calendar(props) {
 
   return (
     <Grid className={classes.container} container spacing={3}>
-      <Header onLogout={onLogout} />
+      <UserNavBar onLogout={onLogout} />
       <Grid item xs={12}>
         <FullCalendar
           plugins={[

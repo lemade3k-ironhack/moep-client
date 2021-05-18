@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
-function Header(props) {
+function UserNavBar(props) {
   const { onLogout } = props;
   return (
     <Navbar bg="light" expand="lg">
@@ -13,11 +13,11 @@ function Header(props) {
       <Nav className="mr-auto">
         <NavDropdown title="Menu" id="basic-nav-dropdown">
           <NavDropdown.Item>
-            <Link to="/calendar">Timetable</Link>
+            <Link to="/timetable">Timetable</Link>
           </NavDropdown.Item>
 
           <NavDropdown.Item>
-            <Link to="/concerts">Lineup</Link>
+            <Link to="/lineup">Lineup</Link>
           </NavDropdown.Item>
 
           <NavDropdown.Divider />
@@ -32,4 +32,4 @@ function Header(props) {
   );
 }
 
-export default Header;
+export default UserNavBar;

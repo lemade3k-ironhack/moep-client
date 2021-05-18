@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router";
-import { ConcertDetail, Header } from "../../index";
+import { ConcertDetail, UserNavBar } from "../../index";
 
 function ConcertList(props) {
   const { user, concerts, favorites, updateFavorite, onLogout } = props;
@@ -9,7 +9,7 @@ function ConcertList(props) {
 
   return (
     <>
-      <Header onLogout={onLogout} />
+      <UserNavBar onLogout={onLogout} />
       {concerts.map((concert, i) => {
         return (
           <ConcertDetail
