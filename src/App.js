@@ -12,6 +12,7 @@ import {
   ConcertDetail,
 } from "./components";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App(props) {
   const [user, updateUser] = useState(null);
@@ -100,23 +101,20 @@ function App(props) {
       });
   };
 
-  if (fetchingUser) return <CircularProgress />;
-
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e.preventDefault();
     axios
       .get(`${config.API_URL}/api/auth/logout`, { withCredentials: true })
       .then(() => {
-        this.setState({
-          user: null,
-        });
+        updateUser(null);
+        updateRedirectPath("signin");
       })
-      .catch((errorObj) => {
-        this.setState({
-          error: errorObj.response.data,
-        });
+      .catch((err) => {
+        updateError(err.response.data);
       });
   };
 
+  if (fetchingUser) return <CircularProgress />;
   return (
     <>
       <Switch>
@@ -136,7 +134,7 @@ function App(props) {
         <Route
           path="/welcome"
           render={() => {
-            return <UserDashboard user={user} />;
+            return <UserDashboard onLogout={handleLogout} user={user} />;
           }}
         />
         <Route
