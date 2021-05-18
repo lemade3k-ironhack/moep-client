@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { List, ListItem, ListItemText } from "@material-ui/core";
 import moment from "moment";
 import Modal, { ModalProvider } from "styled-react-modal";
 import { ConcertDetail } from "../../index";
 
 function UpcomingList(props) {
-  const { concerts, favorites, updateFavorite } = props;
+  const { header, concerts, favorites, updateFavorite } = props;
   const [concert, updateConcert] = useState(null);
   const [showOpen, updateShowOpen] = useState(false);
 
@@ -22,6 +23,9 @@ function UpcomingList(props) {
 
   return (
     <>
+      <h2> {header} </h2>
+      <Link to={"/concerts"}>Lineup</Link>
+      <Link to={"/calendar"}>Calendar</Link>
       <List>
         {concerts.map((concert, i) => {
           return (
