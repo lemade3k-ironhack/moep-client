@@ -193,7 +193,7 @@ function App(props) {
         />
         <Route
           exact
-          path="/concerts"
+          path="/lineup"
           render={() => {
             return (
               <ConcertList
@@ -208,7 +208,7 @@ function App(props) {
         />
         <Route
           exact
-          path="/calendar"
+          path="/timetable"
           render={() => {
             return (
               <Calendar

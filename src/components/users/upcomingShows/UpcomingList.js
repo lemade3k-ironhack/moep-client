@@ -24,8 +24,8 @@ function UpcomingList(props) {
   return (
     <>
       <h2> {header} </h2>
-      <Link to={"/concerts"}>Lineup</Link>
-      <Link to={"/calendar"}>Calendar</Link>
+      <Link to={"/timetable"}>Timetable</Link>
+      <Link to={"/lineup"}>Lineup</Link>
       <List>
         {concerts.map((concert, i) => {
           return (
