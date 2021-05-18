@@ -18,12 +18,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App(props) {
   const [user, updateUser] = useState(null);
   const [fetchingUser, updateFetchingUser] = useState(true);
-  const [redirectPath, updateRedirectPath] = useState(null);
-  const [error, updateError] = useState(null);
   const [concerts, updateConcerts] = useState([]);
   const [favorites, updateFavorites] = useState([]);
   const [calendarStages, updateCalendarStages] = useState([]);
   const [calendarEvents, updateCalendarEvents] = useState([]);
+  const [news, updateNews] = useState(null);
+  const [showNewTickerForm, updateShowNewTickerForm] = useState(false);
+  const [redirectPath, updateRedirectPath] = useState(null);
+  const [error, updateError] = useState(null);
   const { history } = props;
 
   // handle redirects
@@ -84,7 +86,35 @@ function App(props) {
         })
       );
     });
+
+    // Ticker messages (news)
+    // get once on components mount
+    handleGetNews();
+    // then fetch every minute
+    try {
+      setInterval(async () => {
+        await handleGetNews();
+      }, 10000);
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
+
+  // handle get news
+  const handleGetNews = () => {
+    axios
+      .get(`${config.API_URL}/api/news`)
+      .then((res) => {
+        const news = res.data;
+
+        if (news) {
+          updateNews(news?.map((msg) => msg.message));
+        } else {
+          updateNews(null);
+        }
+      })
+      .catch((err) => updateError(err.response.data));
+  };
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -185,6 +215,7 @@ function App(props) {
             return (
               <UserDashboard
                 user={user}
+                news={news}
                 favorites={favorites}
                 updateFavorite={handleUpdateFavorite}
                 onLogout={handleLogout}

@@ -4,15 +4,15 @@ import { React, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
-import { UpcomingList, UserNavBar } from "../index";
+import { NewsTicker, UpcomingList, UserNavBar } from "../index";
 
 function UserDashboard(props) {
-  const { user, favorites, updateFavorite, onLogout } = props;
+  const { user, news, favorites, updateFavorite, onLogout } = props;
   const [upcomingHeader, updateUpcomingHeader] = useState("");
   const [upcoming, updateUpcoming] = useState([]);
   const classes = useStyles();
 
-  // fetch data on mount
+  // fetch data on update
   useEffect(() => {
     // get upcoming favorites
     axios
@@ -41,6 +41,7 @@ function UserDashboard(props) {
     <Grid className={classes.container} container spacing={3}>
       <UserNavBar onLogout={onLogout} />
       <Grid item xs={12}>
+        {news && <NewsTicker news={news} />}
         <h1>Hello {user.name}</h1>
         <UpcomingList
           user={user}

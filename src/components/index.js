@@ -24,4 +24,6 @@ export { default as ConcertDetail } from "./users/concerts/ConcertDetail";
 
 export { default as Calendar } from "./users/calendar/Calendar";
 
+// export shared components
+export { default as NewsTicker } from "./newsTicker/NewsTicker";
 export { default as NotFound } from "./notFound/NotFound";
