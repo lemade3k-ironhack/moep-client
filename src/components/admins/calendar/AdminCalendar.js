@@ -33,16 +33,16 @@ function AdminCalendar(props) {
     let stageName = props.match.params.stageName;
 
     axios
-      .get(`${config.API_URL}/api/stage/${stageName}`, {
-        withCredentials: true,
-      })
+      .get(`${config.API_URL}/api/stage/${stageName}`)
       .then((res) => {
-        updateStage(res.data);
+        const stage = res.data;
+
+        updateStage(stage);
         updateConcerts(
-          res.data.concerts.map((concert) => {
+          stage.concerts.map((concert) => {
             // map concerts to fullcalendar entries
             return {
-              resourceId: concert.stage,
+              resourceId: stage._id,
               title: concert.bandname,
               start: concert.starttime,
               end: concert.endtime,
@@ -155,7 +155,7 @@ function AdminCalendar(props) {
           allDaySlot={false}
           dayMinWidth={260}
           height={"auto"}
-          resources={[{ id: stage.id, title: " " }]}
+          resources={[{ id: stage._id, title: " " }]}
           events={concerts}
           dateClick={handleDateClick}
           eventClick={handleEventClick}
