@@ -11,7 +11,7 @@ import Modal, { ModalProvider } from "styled-react-modal";
 import ConcertDetail from "../concerts/ConcertDetail";
 
 function Calendar(props) {
-  const { user, stages, concerts } = props;
+  const { user, stages, concerts, favorites, updateFavorite } = props;
   const [showOpen, updateShowOpen] = useState(false);
   const [concert, updateConcert] = useState(null);
   const classes = useStyles();
@@ -62,7 +62,11 @@ function Calendar(props) {
             onBackgroundClick={toggleShowOpen}
             onEscapeKeydown={toggleShowOpen}
           >
-            <ConcertDetail concert={concert} />
+            <ConcertDetail
+              concert={concert}
+              favorites={favorites}
+              updateFavorite={updateFavorite}
+            />
           </StyledModal>
         </ModalProvider>
       </Grid>

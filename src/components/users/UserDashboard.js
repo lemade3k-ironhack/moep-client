@@ -3,11 +3,11 @@ import config from "../../config";
 import { React, useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { UpcomingList } from "../index"
+import { UpcomingList } from "../index";
 import { Grid } from "@material-ui/core";
 
 function UserDashboard(props) {
-  const { user } = props;
+  const { user, favorites, updateFavorite } = props;
   const [upcoming, updateUpcoming] = useState([]);
   const classes = useStyles();
 
@@ -27,7 +27,12 @@ function UserDashboard(props) {
         <h1>Hello {user.name}</h1>
         <Link to={"/concerts"}>Lineup</Link>
         <Link to={"/calendar"}>Calendar</Link>
-        <UpcomingList concerts={upcoming} user={user} />
+        <UpcomingList
+          user={user}
+          concerts={upcoming}
+          favorites={favorites}
+          updateFavorite={updateFavorite}
+        />
       </Grid>
     </Grid>
   );

@@ -19,6 +19,7 @@ function App(props) {
   const [redirectPath, updateRedirectPath] = useState(null);
   const [error, updateError] = useState(null);
   const [concerts, updateConcerts] = useState([]);
+  const [favorites, updateFavorites] = useState([]);
   const [calendarStages, updateCalendarStages] = useState([]);
   const [calendarEvents, updateCalendarEvents] = useState([]);
   const { history } = props;
@@ -38,9 +39,10 @@ function App(props) {
   useEffect(() => {
     // check if user has a session
     axios
-      .get(`${config.API_URL}/api/auth/user`, { withCredentials: true })
+      .get(`${config.API_URL}/api/user`, { withCredentials: true })
       .then((res) => {
         updateUser(res.data);
+        updateFavorites(res.data.concerts);
         updateFetchingUser(false);
       })
       .catch(() => {
@@ -130,6 +132,20 @@ function App(props) {
       });
   };
 
+  const handleUpdateFavorite = (concert) => {
+    axios
+      .post(
+        `${config.API_URL}/api/upcoming/update`,
+        { favorites, concert },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        updateFavorites(res.data);
+        updateError(null);
+      })
+      .catch((err) => updateError(err.response.data));
+  };
+
   if (fetchingUser) return <CircularProgress />;
 
   return (
@@ -151,14 +167,27 @@ function App(props) {
         <Route
           path="/welcome"
           render={() => {
-            return <UserDashboard user={user} />;
+            return (
+              <UserDashboard
+                user={user}
+                favorites={favorites}
+                updateFavorite={handleUpdateFavorite}
+              />
+            );
           }}
         />
         <Route
           exact
           path="/concerts"
           render={() => {
-            return <ConcertList concerts={concerts} user={user} />;
+            return (
+              <ConcertList
+                user={user}
+                concerts={concerts}
+                favorites={favorites}
+                updateFavorite={handleUpdateFavorite}
+              />
+            );
           }}
         />
         <Route
@@ -167,9 +196,11 @@ function App(props) {
           render={() => {
             return (
               <Calendar
+                user={user}
                 stages={calendarStages}
                 concerts={calendarEvents}
-                user={user}
+                favorites={favorites}
+                updateFavorite={handleUpdateFavorite}
               />
             );
           }}

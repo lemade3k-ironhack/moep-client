@@ -125,7 +125,7 @@ function AdminCalendar(props) {
         updateError(null);
         toggleShowOpen();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => updateError(err.response.data));
   };
 
   if (!user) {

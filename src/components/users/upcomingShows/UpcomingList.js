@@ -5,7 +5,7 @@ import Modal, { ModalProvider } from "styled-react-modal";
 import { ConcertDetail } from "../../index";
 
 function UpcomingList(props) {
-  const { concerts, user } = props;
+  const { concerts, favorites, updateFavorite } = props;
   const [concert, updateConcert] = useState(null);
   const [showOpen, updateShowOpen] = useState(false);
 
@@ -51,7 +51,11 @@ function UpcomingList(props) {
             onBackgroundClick={toggleShowOpen}
             onEscapeKeydown={toggleShowOpen}
           >
-            <ConcertDetail concert={concert} user={user} />
+            <ConcertDetail
+              concert={concert}
+              favorites={favorites}
+              updateFavorite={updateFavorite}
+            />
           </StyledModal>
         </ModalProvider>
       )}
