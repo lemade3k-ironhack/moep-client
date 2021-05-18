@@ -20,19 +20,20 @@ function UserDashboard(props) {
         withCredentials: true,
       })
       .then((res) => {
-        const upcomingFavorites = res.data
-        updateUpcoming(upcomingFavorites);
-        updateUpcomingHeader("Your next upcoming shows")
-        
+        const upcomingFavorites = res.data;
+
         // if no upcoming favorites get next 5 concerts
-        if(upcomingFavorites.length == 0) {
+        if (upcomingFavorites.length == 0) {
           axios.get(`${config.API_URL}/api/upcoming`).then((res) => {
             updateUpcoming(res.data);
-            updateUpcomingHeader("Next upcoming shows")
+            updateUpcomingHeader("Next upcoming shows");
           });
+        } else {
+          updateUpcoming(upcomingFavorites);
+          updateUpcomingHeader("Your next upcoming shows");
         }
       });
-  }, []);
+  }, [favorites]);
 
   if (!user) return <Redirect to={"/"} />;
 
