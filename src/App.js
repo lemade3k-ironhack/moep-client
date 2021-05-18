@@ -191,6 +191,24 @@ function App(props) {
       .catch((err) => updateError(err.response.data));
   };
 
+  const handleNewTicker = (newMessage) => {
+    axios
+      .post(`${config.API_URL}/api/news/create`, {
+        message: newMessage.message,
+        duration: newMessage.duration,
+      })
+      .then((res) => {
+        updateNews([res.data.message, ...news]);
+        updateError(null);
+        updateShowNewTickerForm(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleShowNewTickerForm = () => {
+    updateShowNewTickerForm(true);
+  };
+
   if (fetchingUser) return <CircularProgress />;
 
   return (
@@ -258,13 +276,28 @@ function App(props) {
           exact
           path="/admin"
           render={() => {
-            return <AdminDashboard user={user} onLogout={handleLogout} />;
+            return (
+              <AdminDashboard
+                user={user}
+                news={news}
+                onNewTicker={handleNewTicker}
+                showNewTickerForm={showNewTickerForm}
+                handleShowNewTickerForm={handleShowNewTickerForm}
+                onLogout={handleLogout}
+              />
+            );
           }}
         />
         <Route
           path="/admin/:stageName/calendar"
           render={(routeProps) => {
-            return <AdminCalendar user={user} onLogout={handleLogout} {...routeProps} />;
+            return (
+              <AdminCalendar
+                user={user}
+                onLogout={handleLogout}
+                {...routeProps}
+              />
+            );
           }}
         />
         <Route component={NotFound} />
