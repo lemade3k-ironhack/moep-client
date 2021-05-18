@@ -22,10 +22,8 @@ function UserNavBar(props) {
           </NavDropdown.Item>
 
           <NavDropdown.Divider />
-          <NavDropdown.Item>
-            <Link variant="outline-success" onClick={onLogout}>
-              Logout
-            </Link>
+          <NavDropdown.Item variant="outline-success" onClick={onLogout}>
+            Logout
           </NavDropdown.Item>
         </NavDropdown>
       </Nav>

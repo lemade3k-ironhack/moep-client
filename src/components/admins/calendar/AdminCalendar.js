@@ -73,7 +73,7 @@ function AdminCalendar(props) {
     const endtime = new Date(`${e.target.day.value}T${e.target.endtime.value}`);
 
     axios
-      .post(`${config.API_URL}/api/stages/${stage.id}/concerts/create`, {
+      .post(`${config.API_URL}/api/stages/${stage._id}/concerts/create`, {
         bandname: e.target.bandname.value,
         starttime: starttime,
         endtime: endtime,
@@ -81,13 +81,13 @@ function AdminCalendar(props) {
         image: e.target.image.value,
       })
       .then((res) => {
-        const { data } = res;
+        const concert = res.data;
         // map new concert to fullcalendar entriy
         const newConcert = {
-          resourceId: data.stage,
-          title: data.bandname,
-          start: data.starttime,
-          end: data.endtime,
+          resourceId: stage._id,
+          title: concert.bandname,
+          start: concert.starttime,
+          end: concert.endtime,
         };
 
         updateConcerts([newConcert, ...concerts]);
