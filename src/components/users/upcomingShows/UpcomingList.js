@@ -22,8 +22,8 @@ function UpcomingList(props) {
   };
 
   return (
-    <>
-      <h2> {header} </h2>
+    <div>
+      <h2 className="center"> {header} </h2>
       <Link to={"/timetable"}>Timetable</Link>
       <Link to={"/lineup"}>Lineup</Link>
       <List>
@@ -63,13 +63,12 @@ function UpcomingList(props) {
           </StyledModal>
         </ModalProvider>
       )}
-    </>
+    </div>
   );
 }
 
 const StyledModal = Modal.styled`
-  width: 20rem;
-  height: 20rem;
+
   display: flex;
   align-items: center;
   justify-content: center;

@@ -5,6 +5,8 @@ import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import { NewsTicker, UpcomingList, UserNavBar } from "../index";
+import { flexibleCompare } from "@fullcalendar/common";
+import "./UserStyle.css";
 
 function UserDashboard(props) {
   const { user, news, favorites, updateFavorite, onLogout } = props;
@@ -26,7 +28,7 @@ function UserDashboard(props) {
         if (upcomingFavorites.length == 0) {
           axios.get(`${config.API_URL}/api/upcoming`).then((res) => {
             updateUpcoming(res.data);
-            updateUpcomingHeader("Next upcoming shows");
+            updateUpcomingHeader("Upcoming shows");
           });
         } else {
           updateUpcoming(upcomingFavorites);
@@ -38,20 +40,24 @@ function UserDashboard(props) {
   if (!user) return <Redirect to={"/"} />;
 
   return (
-    <Grid className={classes.container} container spacing={3}>
+    <>
       <UserNavBar onLogout={onLogout} />
-      <Grid item xs={12}>
-        {news && <NewsTicker news={news} />}
-        <h1>Hello {user.name}</h1>
-        <UpcomingList
-          user={user}
-          concerts={upcoming}
-          favorites={favorites}
-          updateFavorite={updateFavorite}
-          header={upcomingHeader}
-        />
-      </Grid>
-    </Grid>
+      <div>
+        <Grid className={classes.container} container spacing={3}>
+          <Grid item xs={12} className="trans">
+            {news && <NewsTicker news={news} />}
+            <h1>Hello {user.name}</h1>
+            <UpcomingList
+              user={user}
+              concerts={upcoming}
+              favorites={favorites}
+              updateFavorite={updateFavorite}
+              header={upcomingHeader}
+            />
+          </Grid>
+        </Grid>
+      </div>
+    </>
   );
 }
 
@@ -59,7 +65,8 @@ const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(2),
     margin: "auto",
-    maxWidth: 1000,
+    maxWidth: 600,
+    background: "rgba (0, 0, 0, 0.5)",
   },
 }));
 
