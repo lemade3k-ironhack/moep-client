@@ -25,8 +25,8 @@ function AdminCalendar(props) {
   const [showOpen, updateShowOpen] = useState(false);
   const [concert, updateConcert] = useState(null);
   const classes = useStyles();
-  const festivalStart = "2021-06-01";
-  const festivalEnd = "2021-06-05";
+  const festivalStart = config.FESTIVAL_START_DATE;
+  const festivalEnd = config.FESTIVAL_END_DATE;
 
   // get all concerts on mount
   useEffect(() => {
