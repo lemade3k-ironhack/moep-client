@@ -27,10 +27,14 @@ function Calendar(props) {
   const handleEventClick = (calendar) => {
     const bandname = calendar.event._def.title;
 
-    axios.get(`${config.API_URL}/api/concerts/${bandname}`).then((res) => {
-      updateConcert(res.data);
-      toggleShowOpen();
-    });
+    axios
+      .get(`${config.API_URL}/api/concerts/${bandname}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        updateConcert(res.data);
+        toggleShowOpen();
+      });
   };
 
   if (!user) return <Redirect to={"/"} />;

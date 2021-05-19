@@ -33,7 +33,9 @@ function AdminCalendar(props) {
     let stageName = props.match.params.stageName;
 
     axios
-      .get(`${config.API_URL}/api/stage/${stageName}`)
+      .get(`${config.API_URL}/api/stage/${stageName}`, {
+        withCredentials: true,
+      })
       .then((res) => {
         const stage = res.data;
 
@@ -73,13 +75,17 @@ function AdminCalendar(props) {
     const endtime = new Date(`${e.target.day.value}T${e.target.endtime.value}`);
 
     axios
-      .post(`${config.API_URL}/api/stages/${stage._id}/concerts/create`, {
-        bandname: e.target.bandname.value,
-        starttime: starttime,
-        endtime: endtime,
-        description: e.target.description.value,
-        image: e.target.image.value,
-      })
+      .post(
+        `${config.API_URL}/api/stages/${stage._id}/concerts/create`,
+        {
+          bandname: e.target.bandname.value,
+          starttime: starttime,
+          endtime: endtime,
+          description: e.target.description.value,
+          image: e.target.image.value,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
         const concert = res.data;
         // map new concert to fullcalendar entriy
@@ -108,15 +114,21 @@ function AdminCalendar(props) {
   const handleEventClick = (calendar) => {
     const bandname = calendar.event._def.title;
 
-    axios.get(`${config.API_URL}/api/concerts/${bandname}`).then((res) => {
-      updateConcert(res.data);
-      toggleShowOpen();
-    });
+    axios
+      .get(`${config.API_URL}/api/concerts/${bandname}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        updateConcert(res.data);
+        toggleShowOpen();
+      });
   };
 
   const handleDelete = (concertId) => {
     axios
-      .delete(`${config.API_URL}/api/concerts/${concertId}/delete`)
+      .delete(`${config.API_URL}/api/concerts/${concertId}/delete`, {
+        withCredentials: true,
+      })
       .then((deleted) => {
         let filtered = concerts.filter(
           (concert) => concert.title !== deleted.bandname

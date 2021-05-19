@@ -22,14 +22,20 @@ function AdminDashboard(props) {
 
   // fetch stages on mount
   useEffect(() => {
-    axios.get(`${config.API_URL}/api/stages`).then((res) => {
-      updateStages(res.data);
-    });
+    axios
+      .get(`${config.API_URL}/api/stages`, { withCredentials: true })
+      .then((res) => {
+        updateStages(res.data);
+      });
   }, []);
 
   const handleNewStage = (name) => {
     axios
-      .post(`${config.API_URL}/api/stage/create`, { name })
+      .post(
+        `${config.API_URL}/api/stage/create`,
+        { name },
+        { withCredentials: true }
+      )
       .then((res) => {
         updateStages([res.data, ...stages]);
         updateError(null);
@@ -44,9 +50,11 @@ function AdminDashboard(props) {
 
   const handleEdit = (stage) => {
     axios
-      .patch(`${config.API_URL}/api/stage/${stage._id}/update`, {
-        name: stage.name,
-      })
+      .patch(
+        `${config.API_URL}/api/stage/${stage._id}/update`,
+        { name: stage.name },
+        { withCredentials: true }
+      )
       .then(() => {
         let updatedStages = stages.map((singleStage) => {
           if (stage._id === singleStage._id) {
@@ -62,7 +70,9 @@ function AdminDashboard(props) {
 
   const handleDelete = (stageId) => {
     axios
-      .delete(`${config.API_URL}/api/stage/${stageId}/delete`)
+      .delete(`${config.API_URL}/api/stage/${stageId}/delete`, {
+        withCredentials: true,
+      })
       .then(() => {
         let filteredStages = stages.filter((stage) => {
           return stage._id !== stageId;
