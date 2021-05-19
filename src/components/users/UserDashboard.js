@@ -26,10 +26,12 @@ function UserDashboard(props) {
 
         // if no upcoming favorites get next 5 concerts
         if (upcomingFavorites.length == 0) {
-          axios.get(`${config.API_URL}/api/upcoming`).then((res) => {
-            updateUpcoming(res.data);
-            updateUpcomingHeader("Upcoming shows");
-          });
+          axios
+            .get(`${config.API_URL}/api/upcoming`, { withCredentials: true })
+            .then((res) => {
+              updateUpcoming(res.data);
+              updateUpcomingHeader("Upcoming shows");
+            });
         } else {
           updateUpcoming(upcomingFavorites);
           updateUpcomingHeader("Your next upcoming shows");

@@ -1,14 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import config from "../../config";
 
 function UserNavBar(props) {
   const { onLogout } = props;
+  const festivalName = config.FESTIVAL_NAME;
 
   return (
     <Navbar bg="light" expand="lg">
       <Navbar.Brand>
-        <Link to="/welcome">moep</Link>
+        <Link to="/welcome">{festivalName}</Link>
       </Navbar.Brand>
 
       <Nav className="mr-auto">

@@ -15,8 +15,8 @@ function Calendar(props) {
   const [showOpen, updateShowOpen] = useState(false);
   const [concert, updateConcert] = useState(null);
   const classes = useStyles();
-  const festivalStart = "2021-06-01";
-  const festivalEnd = "2021-06-05";
+  const festivalStart = config.FESTIVAL_START_DATE;
+  const festivalEnd = config.FESTIVAL_END_DATE;
 
   // helper function to toggle overlay
   const toggleShowOpen = () => {
@@ -27,10 +27,14 @@ function Calendar(props) {
   const handleEventClick = (calendar) => {
     const bandname = calendar.event._def.title;
 
-    axios.get(`${config.API_URL}/api/concerts/${bandname}`).then((res) => {
-      updateConcert(res.data);
-      toggleShowOpen();
-    });
+    axios
+      .get(`${config.API_URL}/api/concerts/${bandname}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        updateConcert(res.data);
+        toggleShowOpen();
+      });
   };
 
   if (!user) return <Redirect to={"/"} />;

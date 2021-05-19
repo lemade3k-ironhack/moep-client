@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import {
   makeStyles,
   Avatar,
@@ -11,35 +11,8 @@ import {
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
-const useStyles = makeStyles((theme) => ({
-  alert: {
-    marginBottom: theme.spacing(3)
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-  },
-  description: {
-    margin: theme.spacing(3),
-    textAlign: "center",
-    flexGrow: 1,
-  },
-  form: {
-    width: "100%",
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
 function SignUp(props) {
-  const { onSubmit, error } = props;
+  const { festivalName, onSubmit, error } = props;
   const classes = useStyles();
 
   return (
@@ -51,7 +24,7 @@ function SignUp(props) {
           alt="moep-avatar"
         />
         <Typography component="h1" variant="h3">
-          MOEP
+          {festivalName} - Planer
         </Typography>
         <Typography className={classes.description}>
           Nullam accumsan lorem in dui. Nulla porta dolor. Etiam imperdiet
@@ -62,7 +35,11 @@ function SignUp(props) {
         </Typography>
       </div>
       <form onSubmit={onSubmit} className={classes.form} noValidate>
-        {error && <Alert className={classes.alert} severity="error">{error.errorMessage}</Alert>}
+        {error && (
+          <Alert className={classes.alert} severity="error">
+            {error.errorMessage}
+          </Alert>
+        )}
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -107,14 +84,39 @@ function SignUp(props) {
         </Button>
         <Grid container justify="flex-end">
           <Grid item>
-            <Link to={"/"}>
-              Already have an account? Sign in
-            </Link>
+            <Link to={"/"}>Already have an account? Sign in</Link>
           </Grid>
         </Grid>
       </form>
     </Container>
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  alert: {
+    marginBottom: theme.spacing(3),
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+  },
+  description: {
+    margin: theme.spacing(3),
+    textAlign: "center",
+    flexGrow: 1,
+  },
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
 export default SignUp;
