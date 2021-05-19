@@ -14,6 +14,7 @@ import {
 } from "./components";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 function App(props) {
   const [user, updateUser] = useState(null);
