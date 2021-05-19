@@ -18,12 +18,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App(props) {
   const [user, updateUser] = useState(null);
   const [fetchingUser, updateFetchingUser] = useState(true);
-  const [redirectPath, updateRedirectPath] = useState(null);
-  const [error, updateError] = useState(null);
   const [concerts, updateConcerts] = useState([]);
   const [favorites, updateFavorites] = useState([]);
   const [calendarStages, updateCalendarStages] = useState([]);
   const [calendarEvents, updateCalendarEvents] = useState([]);
+  const [news, updateNews] = useState(null);
+  const [showNewTickerForm, updateShowNewTickerForm] = useState(false);
+  const [redirectPath, updateRedirectPath] = useState(null);
+  const [error, updateError] = useState(null);
   const { history } = props;
 
   // handle redirects
@@ -84,7 +86,35 @@ function App(props) {
         })
       );
     });
+
+    // Ticker messages (news)
+    // get once on components mount
+    handleGetNews();
+    // then fetch every minute
+    try {
+      setInterval(async () => {
+        await handleGetNews();
+      }, 10000);
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
+
+  // handle get news
+  const handleGetNews = () => {
+    axios
+      .get(`${config.API_URL}/api/news`)
+      .then((res) => {
+        const news = res.data;
+
+        if (news) {
+          updateNews(news?.map((msg) => msg.message));
+        } else {
+          updateNews(null);
+        }
+      })
+      .catch((err) => updateError(err.response.data));
+  };
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -161,6 +191,24 @@ function App(props) {
       .catch((err) => updateError(err.response.data));
   };
 
+  const handleNewTicker = (newMessage) => {
+    axios
+      .post(`${config.API_URL}/api/news/create`, {
+        message: newMessage.message,
+        duration: newMessage.duration,
+      })
+      .then((res) => {
+        updateNews([res.data.message, ...news]);
+        updateError(null);
+        updateShowNewTickerForm(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleShowNewTickerForm = () => {
+    updateShowNewTickerForm(true);
+  };
+
   if (fetchingUser) return <CircularProgress />;
 
   return (
@@ -185,6 +233,7 @@ function App(props) {
             return (
               <UserDashboard
                 user={user}
+                news={news}
                 favorites={favorites}
                 updateFavorite={handleUpdateFavorite}
                 onLogout={handleLogout}
@@ -227,13 +276,28 @@ function App(props) {
           exact
           path="/admin"
           render={() => {
-            return <AdminDashboard user={user} onLogout={handleLogout} />;
+            return (
+              <AdminDashboard
+                user={user}
+                news={news}
+                onNewTicker={handleNewTicker}
+                showNewTickerForm={showNewTickerForm}
+                handleShowNewTickerForm={handleShowNewTickerForm}
+                onLogout={handleLogout}
+              />
+            );
           }}
         />
         <Route
           path="/admin/:stageName/calendar"
           render={(routeProps) => {
-            return <AdminCalendar user={user} onLogout={handleLogout} {...routeProps} />;
+            return (
+              <AdminCalendar
+                user={user}
+                onLogout={handleLogout}
+                {...routeProps}
+              />
+            );
           }}
         />
         <Route component={NotFound} />

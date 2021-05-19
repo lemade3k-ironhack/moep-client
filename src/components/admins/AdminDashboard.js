@@ -3,14 +3,21 @@ import config from "../../config";
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, CircularProgress } from "@material-ui/core/";
-import { AdminNavBar, StageList } from "../index";
+import { AdminNavBar, AdminNewsTicker, StageList } from "../index";
 import { Redirect } from "react-router";
 
 function AdminDashboard(props) {
-  const { user, onLogout } = props;
+  const {
+    user,
+    news,
+    onNewTicker,
+    showNewTickerForm,
+    handleShowNewTickerForm,
+    onLogout,
+  } = props;
   const [stages, updateStages] = useState([]);
-  const [error, updateError] = useState(null);
   const [showNewForm, updateShowNewForm] = useState(false);
+  const [error, updateError] = useState(null);
   const classes = useStyles();
 
   // fetch stages on mount
@@ -76,6 +83,13 @@ function AdminDashboard(props) {
     <Grid className={classes.container} container spacing={3}>
       <AdminNavBar onLogout={onLogout} />
       <Grid item xs={12}>
+        <AdminNewsTicker
+          news={news}
+          onNew={onNewTicker}
+          showNewForm={showNewTickerForm}
+          handleShowNewForm={handleShowNewTickerForm}
+          error={error}
+        />
         <StageList
           onNew={handleNewStage}
           showNewForm={showNewForm}
