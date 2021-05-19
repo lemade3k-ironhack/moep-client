@@ -27,6 +27,7 @@ function App(props) {
   const [redirectPath, updateRedirectPath] = useState(null);
   const [error, updateError] = useState(null);
   const { history } = props;
+  const festivalName = config.FESTIVAL_NAME;
 
   // handle redirects
   useEffect(() => {
@@ -224,13 +225,25 @@ function App(props) {
           exact
           path="/"
           render={() => {
-            return <SignIn error={error} onSubmit={handleSignIn} />;
+            return (
+              <SignIn
+                festivalName={festivalName}
+                error={error}
+                onSubmit={handleSignIn}
+              />
+            );
           }}
         />
         <Route
           path="/signup"
           render={() => {
-            return <SignUp error={error} onSubmit={handleSignUp} />;
+            return (
+              <SignUp
+                festivalName={festivalName}
+                error={error}
+                onSubmit={handleSignUp}
+              />
+            );
           }}
         />
         <Route
