@@ -43,7 +43,7 @@ function UserDashboard(props) {
 
   return (
     <>
-      <UserNavBar onLogout={onLogout} />
+      <UserNavBar onLogout={onLogout} user={user} />
       <div>
         <Grid className={classes.container} container spacing={3}>
           <Grid item xs={12} className="trans">
