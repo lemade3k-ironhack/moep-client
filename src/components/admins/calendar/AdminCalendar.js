@@ -53,7 +53,7 @@ function AdminCalendar(props) {
         );
       })
       .catch((err) => updateError(err.response.data));
-  }, []);
+  }, [concerts]);
 
   // helper function to toggle overlay
   const toggleNewForm = () => {
