@@ -16,22 +16,16 @@ function SignUp(props) {
   const classes = useStyles();
 
   return (
-    <Container maxWidth="xs">
+    <Container maxWidth="xs" className="radius trans">
       <div className={classes.paper}>
-        <Avatar
-          className={classes.avatar}
-          src="/public/logo512.png"
-          alt="moep-avatar"
-        />
-        <Typography component="h1" variant="h3">
+        <Typography className="paddingtop" component="h1" variant="h3">
           {festivalName} - Planer
         </Typography>
-        <Typography className={classes.description}>
-          Nullam accumsan lorem in dui. Nulla porta dolor. Etiam imperdiet
-          imperdiet orci.
+        <Typography className={classes.description} variant="h5">
+          YOUR FAVORITE FESTIVAL <br /> 20/05 - 23/05/2021
         </Typography>
         <Typography component="h2" variant="h5">
-          Sign Up
+          Sign up
         </Typography>
       </div>
       <form onSubmit={onSubmit} className={classes.form} noValidate>
@@ -84,7 +78,9 @@ function SignUp(props) {
         </Button>
         <Grid container justify="flex-end">
           <Grid item>
-            <Link to={"/"}>Already have an account? Sign in</Link>
+            <Link to={"/"} className="linkDark ">
+              Already signed up? Sign in
+            </Link>
           </Grid>
         </Grid>
       </form>
@@ -116,6 +112,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#6699cc",
   },
 }));
 

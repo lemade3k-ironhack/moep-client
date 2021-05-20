@@ -78,6 +78,10 @@ img {
   margin-top: 30px;
 }
 
+.paddingtop {
+  padding-top: 20px;
+}
+
 .scroll-box {
   overflow-y: scroll;
   height: 180px;
