@@ -55,6 +55,12 @@ function Calendar(props) {
             validRange={{ start: festivalStart, end: festivalEnd }}
             visibleRange={{ start: festivalStart, end: festivalEnd }}
             headerToolbar={{ start: "title", center: "", end: "prev,next" }}
+            eventTimeFormat={{
+              hour: "numeric",
+              minute: "2-digit",
+              omitZeroMinute: true,
+              meridiem: "short",
+            }}
             allDaySlot={false}
             dayMinWidth={258}
             height={"auto"}
