@@ -21,13 +21,11 @@ function AdminDashboard(props) {
 
   // fetch stages on mount
   useEffect(() => {
-    if (user) {
-      axios
-        .get(`${config.API_URL}/api/stages`, { withCredentials: true })
-        .then((res) => {
-          updateStages(res.data);
-        });
-    }
+    axios
+      .get(`${config.API_URL}/api/stages`, { withCredentials: true })
+      .then((res) => {
+        updateStages(res.data);
+      });
   }, []);
 
   const handleNewStage = (name) => {

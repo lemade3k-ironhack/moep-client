@@ -56,42 +56,40 @@ function App(props) {
         updateRedirectPath("signin");
       });
 
-    if (user) {
-      // get all stages and map to fullcalendar resources
-      axios
-        .get(`${config.API_URL}/api/stages`, { withCredentials: true })
-        .then((res) => {
-          updateCalendarStages(
-            res.data.map((stage) => {
-              return {
-                id: stage._id,
-                title: stage.name,
-              };
-            })
-          );
-        })
-        .catch((err) => updateError(err.response.data));
+    // get all stages and map to fullcalendar resources
+    axios
+      .get(`${config.API_URL}/api/stages`, { withCredentials: true })
+      .then((res) => {
+        updateCalendarStages(
+          res.data.map((stage) => {
+            return {
+              id: stage._id,
+              title: stage.name,
+            };
+          })
+        );
+      })
+      .catch((err) => updateError(err.response.data));
 
-      // get all concerts
-      axios
-        .get(`${config.API_URL}/api/concerts`, { withCredentials: true })
-        .then((res) => {
-          const concerts = res.data;
+    // get all concerts
+    axios
+      .get(`${config.API_URL}/api/concerts`, { withCredentials: true })
+      .then((res) => {
+        const concerts = res.data;
 
-          updateConcerts(concerts);
-          // map concerts also to fullcalendar entries
-          updateCalendarEvents(
-            concerts.map((concert) => {
-              return {
-                resourceId: concert.stage._id,
-                title: concert.bandname,
-                start: concert.starttime,
-                end: concert.endtime,
-              };
-            })
-          );
-        });
-    }
+        updateConcerts(concerts);
+        // map concerts also to fullcalendar entries
+        updateCalendarEvents(
+          concerts.map((concert) => {
+            return {
+              resourceId: concert.stage._id,
+              title: concert.bandname,
+              start: concert.starttime,
+              end: concert.endtime,
+            };
+          })
+        );
+      });
 
     // Ticker messages (news)
     // get once on components mount
