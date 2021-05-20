@@ -24,31 +24,29 @@ function AdminCalendar(props) {
 
   // get all concerts on mount
   useEffect(() => {
-    if (user) {
-      let stageName = props.match.params.stageName;
+    let stageName = props.match.params.stageName;
 
-      axios
-        .get(`${config.API_URL}/api/stage/${stageName}`, {
-          withCredentials: true,
-        })
-        .then((res) => {
-          const stage = res.data;
+    axios
+      .get(`${config.API_URL}/api/stage/${stageName}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        const stage = res.data;
 
-          updateStage(stage);
-          updateConcerts(
-            stage.concerts.map((concert) => {
-              // map concerts to fullcalendar entries
-              return {
-                resourceId: stage._id,
-                title: concert.bandname,
-                start: concert.starttime,
-                end: concert.endtime,
-              };
-            })
-          );
-        })
-        .catch((err) => updateError(err.response.data));
-    }
+        updateStage(stage);
+        updateConcerts(
+          stage.concerts.map((concert) => {
+            // map concerts to fullcalendar entries
+            return {
+              resourceId: stage._id,
+              title: concert.bandname,
+              start: concert.starttime,
+              end: concert.endtime,
+            };
+          })
+        );
+      })
+      .catch((err) => updateError(err.response.data));
   }, []);
 
   // helper function to toggle overlay
@@ -160,12 +158,18 @@ function AdminCalendar(props) {
           validRange={{ start: festivalStart, end: festivalEnd }}
           visibleRange={{ start: festivalStart, end: festivalEnd }}
           headerToolbar={{ start: "", center: "title", end: "" }}
+          resources={[{ id: stage._id, title: " " }]}
+          eventTimeFormat={{
+            hour: "numeric",
+            minute: "2-digit",
+            omitZeroMinute: true,
+            meridiem: "short",
+          }}
           allDaySlot={false}
           dayMinWidth={260}
           height={"auto"}
           eventColor="#0e2a30"
           eventTextColor="#d7d7d7"
-          resources={[{ id: stage._id, title: " " }]}
           events={concerts}
           dateClick={handleDateClick}
           eventClick={handleEventClick}

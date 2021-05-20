@@ -5,41 +5,41 @@
 
 /* ---- table ----- */
 .fc-scrollgrid-section-header .fc-scroller-harness,
-.fc .fc-timegrid-axis-chunk .fc-timegrid-slot {
+.fc-timegrid-axis-chunk .fc-timegrid-slot {
   background-color: #0e2a30;
 }
 
-.fc .fc-scrollgrid-section-sticky > * {
-  background: none;
+.fc-timegrid-col.fc-day-today,
+.fc-scrollgrid-section-sticky>* {
+  background: none !important;
 }
 
 .fc-theme-standard .fc-scrollgrid {
   border: none;
 }
 
-.fc .fc-timegrid-slot-minor {
+.fc-timegrid-slot-minor {
   border-top: none;
 }
 
-.fc-theme-standard td, .fc-theme-standard th {
+.fc-theme-standard td,
+.fc-theme-standard th {
   border: 1px dotted #17454F;
 }
 
-.fc .fc-col-header-cell-cushion {
+.fc-col-header-cell-cushion {
   color: #d7d7d7 !important;
   padding: 8px !important
 }
 
-.fc .fc-timegrid-slot-label-cushion {
+.fc-timegrid-slot-label-cushion {
   color: #d7d7d7 !important;
 }
 
-.fc .fc-timegrid-col.fc-day-today {
-  background-color: none;
-}
-
 /* ----- events ----- */
-.fc-timegrid-event-harness-inset .fc-timegrid-event, .fc-timegrid-event.fc-event-mirror, .fc-timegrid-more-link  {
+.fc-timegrid-event-harness-inset .fc-timegrid-event,
+.fc-timegrid-event.fc-event-mirror,
+.fc-timegrid-more-link {
   box-shadow: none;
   border-radius: 4px;
 }
@@ -48,14 +48,14 @@
   width: 98%;
 }
 
-.fc .fc-event-main {
+.fc-event-main {
   padding: 10px !important;
 }
 
-.fc .fc-event-time {
+.fc-event-time {
   font-size: 1.2em !important;
 }
 
-.fc .fc-event-title {
+.fc-event-title {
   font-size: 1.3em !important;
 }
