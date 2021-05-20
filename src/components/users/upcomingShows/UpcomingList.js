@@ -4,6 +4,7 @@ import { List, ListItem, ListItemText } from "@material-ui/core";
 import moment from "moment";
 import Modal, { ModalProvider } from "styled-react-modal";
 import { ConcertDetail } from "../../index";
+import "./UserDashBoard.css";
 
 function UpcomingList(props) {
   const { header, concerts, favorites, updateFavorite } = props;
@@ -24,8 +25,17 @@ function UpcomingList(props) {
   return (
     <div>
       <h2 className="center"> {header} </h2>
-      <Link to={"/timetable"}>Timetable</Link>
-      <Link to={"/lineup"}>Lineup</Link>
+      <div className="center">
+        <Link
+          className="center linkDark linkPadding linkSize"
+          to={"/timetable"}
+        >
+          Timetable
+        </Link>
+        <Link className="center linkDark linkPadding linkSize" to={"/lineup"}>
+          Lineup
+        </Link>
+      </div>
       <List>
         {concerts.map((concert, i) => {
           return (

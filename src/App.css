@@ -17,13 +17,17 @@ img {
 }
 
 /* ----- global helper classes ----- */
+.content-padding {
+  padding: 16px 32px;
+}
+
 .center {
   display: flex;
   justify-content: center;
 }
 
 .trans {
-  background-color: rgb(255 255 255 / 40%);
+  background-color: rgb(255 255 255 / 60%);
   color: black;
 }
 
@@ -32,6 +36,15 @@ img {
 }
 
 .linkColor:hover {
+  color: #6699cc;
+  text-decoration: none;
+}
+
+.linkDark {
+  color: #0e2a30;
+ font-style: oblique;
+}
+.linkDark:hover {
   color: #6699cc;
   text-decoration: none;
 }
