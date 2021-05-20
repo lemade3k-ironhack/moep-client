@@ -47,7 +47,7 @@ img {
 
 .linkDark {
   color: #0e2a30;
- font-style: oblique;
+  font-style: oblique;
 }
 
 .linkDark:hover {
@@ -60,20 +60,25 @@ img {
 }
 
 .linkPadding {
-  padding: 10px 10px 
+  padding: 10px 10px
 }
 
 .linkSize {
   font-size: 1.2rem
 }
 
-.flex-column{
-  display:flex;
+.flex-column {
+  display: flex;
   flex-direction: column;
-  justify-content:flex-start;
+  justify-content: flex-start;
   align-items: center;
 }
 
 .margin {
   margin-top: 30px;
+}
+
+.scroll-box {
+  overflow-y: scroll;
+  height: 180px;
 }

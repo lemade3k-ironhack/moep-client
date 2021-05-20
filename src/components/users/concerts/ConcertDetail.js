@@ -74,7 +74,7 @@ function ConcertDetail(props) {
           />
 
           <Typography paragraph></Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography className="scroll-box" variant="body2" color="textSecondary" component="p">
             {concert.description}
           </Typography>
         </CardContent>
@@ -86,7 +86,6 @@ function ConcertDetail(props) {
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
-    //background: `blue`,
   },
   media: {
     height: 0,
