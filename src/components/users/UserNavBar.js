@@ -57,6 +57,9 @@ function UserNavBar(props) {
               {" "}
               <Link to="/timetable">Timetable</Link>
             </Nav.Link>
+            <Nav.Link variant="outline-success" onClick={onLogout}>
+              Logout
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

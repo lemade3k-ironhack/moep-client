@@ -9,7 +9,7 @@ function ConcertList(props) {
 
   return (
     <>
-      <UserNavBar onLogout={onLogout} />
+      <UserNavBar onLogout={onLogout} user={user} />
       {concerts.map((concert, i) => {
         return (
           <ConcertDetail
