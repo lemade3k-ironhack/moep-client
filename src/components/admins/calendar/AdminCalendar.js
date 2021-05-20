@@ -24,29 +24,31 @@ function AdminCalendar(props) {
 
   // get all concerts on mount
   useEffect(() => {
-    let stageName = props.match.params.stageName;
+    if (user) {
+      let stageName = props.match.params.stageName;
 
-    axios
-      .get(`${config.API_URL}/api/stage/${stageName}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        const stage = res.data;
+      axios
+        .get(`${config.API_URL}/api/stage/${stageName}`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          const stage = res.data;
 
-        updateStage(stage);
-        updateConcerts(
-          stage.concerts.map((concert) => {
-            // map concerts to fullcalendar entries
-            return {
-              resourceId: stage._id,
-              title: concert.bandname,
-              start: concert.starttime,
-              end: concert.endtime,
-            };
-          })
-        );
-      })
-      .catch((err) => updateError(err.response.data));
+          updateStage(stage);
+          updateConcerts(
+            stage.concerts.map((concert) => {
+              // map concerts to fullcalendar entries
+              return {
+                resourceId: stage._id,
+                title: concert.bandname,
+                start: concert.starttime,
+                end: concert.endtime,
+              };
+            })
+          );
+        })
+        .catch((err) => updateError(err.response.data));
+    }
   }, []);
 
   // helper function to toggle overlay
