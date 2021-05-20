@@ -40,42 +40,44 @@ function Calendar(props) {
   if (!user) return <Redirect to={"/"} />;
 
   return (
-    <Grid className={classes.container} container spacing={3}>
-      <UserNavBar onLogout={onLogout} />
-      <Grid item xs={12}>
-        <FullCalendar
-          plugins={[
-            resourceTimeGridPlugin,
-            scrollGridPlugin,
-            interactionPlugin,
-          ]}
-          initialView="resourceTimeGridDay"
-          validRange={{ start: festivalStart, end: festivalEnd }}
-          visibleRange={{ start: festivalStart, end: festivalEnd }}
-          headerToolbar={{ start: "", center: "title", end: "prev,next" }}
-          allDaySlot={false}
-          dayMinWidth={260}
-          height={"auto"}
-          resources={stages}
-          events={concerts}
-          eventClick={handleEventClick}
-        />
-        {/* render show concert details as overlay */}
-        <ModalProvider>
-          <StyledModal
-            isOpen={showOpen}
-            onBackgroundClick={toggleShowOpen}
-            onEscapeKeydown={toggleShowOpen}
-          >
-            <ConcertDetail
-              concert={concert}
-              favorites={favorites}
-              updateFavorite={updateFavorite}
-            />
-          </StyledModal>
-        </ModalProvider>
+    <>
+      <UserNavBar onLogout={onLogout} user={user} />
+      <Grid className={classes.container} container spacing={3}>
+        <Grid item xs={12}>
+          <FullCalendar
+            plugins={[
+              resourceTimeGridPlugin,
+              scrollGridPlugin,
+              interactionPlugin,
+            ]}
+            initialView="resourceTimeGridDay"
+            validRange={{ start: festivalStart, end: festivalEnd }}
+            visibleRange={{ start: festivalStart, end: festivalEnd }}
+            headerToolbar={{ start: "", center: "title", end: "prev,next" }}
+            allDaySlot={false}
+            dayMinWidth={260}
+            height={"auto"}
+            resources={stages}
+            events={concerts}
+            eventClick={handleEventClick}
+          />
+          {/* render show concert details as overlay */}
+          <ModalProvider>
+            <StyledModal
+              isOpen={showOpen}
+              onBackgroundClick={toggleShowOpen}
+              onEscapeKeydown={toggleShowOpen}
+            >
+              <ConcertDetail
+                concert={concert}
+                favorites={favorites}
+                updateFavorite={updateFavorite}
+              />
+            </StyledModal>
+          </ModalProvider>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
 

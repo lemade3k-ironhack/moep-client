@@ -8,7 +8,12 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100%
+  height: 100%;
+}
+
+img {
+  width: 50px;
+  margin: 40
 }
 
 /* ----- global helper classes ----- */
@@ -20,4 +25,13 @@ body {
 .trans {
   background-color: rgb(255 255 255 / 40%);
   color: black;
+}
+
+.linkColor {
+  color: #d7d7d7;
+}
+
+.linkColor:hover {
+  color: #6699cc;
+  text-decoration: none;
 }
