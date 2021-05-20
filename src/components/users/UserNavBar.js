@@ -10,38 +10,7 @@ function UserNavBar(props) {
 
   return (
     <div>
-      <Navbar className="color" expand="lg">
-        <Navbar.Brand>
-          {/* <Link to="/welcome">{festivalName}</Link> */}
-          <Link to="/welcome">
-            <img src="/IronH.png" />
-          </Link>
-        </Navbar.Brand>
-      </Navbar>
-
-      <Navbar className="color">
-        <Navbar.Brand>
-          <Link to="/welcome">
-            <img src="/IronH.png" />
-          </Link>{" "}
-        </Navbar.Brand>
-        <NavDropdown title={user.name} id="basic-nav-dropdown">
-          <NavDropdown.Item>
-            <Link to="/timetable">Timetable</Link>
-          </NavDropdown.Item>
-
-          <NavDropdown.Item>
-            <Link to="/lineup">Lineup</Link>
-          </NavDropdown.Item>
-
-          <NavDropdown.Divider />
-          <NavDropdown.Item variant="outline-success" onClick={onLogout}>
-            Logout
-          </NavDropdown.Item>
-        </NavDropdown>
-      </Navbar>
-
-      <Navbar className="color " expand="sm">
+      <Navbar className="color" expand="sm" variant="dark">
         <Navbar.Brand>
           <Link to="/welcome">
             <img src="/IronH.png" />
@@ -51,14 +20,18 @@ function UserNavBar(props) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
             <Nav.Link>
-              <Link to="/lineup">Lineup</Link>
+              <Link to="/lineup" className="linkColor">
+                Lineup
+              </Link>
             </Nav.Link>
             <Nav.Link>
               {" "}
-              <Link to="/timetable">Timetable</Link>
+              <Link to="/timetable" className="linkColor">
+                Timetable
+              </Link>
             </Nav.Link>
-            <Nav.Link variant="outline-success" onClick={onLogout}>
-              Logout
+            <Nav.Link onClick={onLogout}>
+              <Link className="linkColor">Logout</Link>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
