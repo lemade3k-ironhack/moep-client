@@ -14,27 +14,29 @@ function UserDashboard(props) {
 
   // fetch data on update
   useEffect(() => {
-    // get upcoming favorites
-    axios
-      .get(`${config.API_URL}/api/upcoming/favorites`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        const upcomingFavorites = res.data;
+    if (user) {
+      // get upcoming favorites
+      axios
+        .get(`${config.API_URL}/api/upcoming/favorites`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          const upcomingFavorites = res.data;
 
-        // if no upcoming favorites get next 5 concerts
-        if (upcomingFavorites.length == 0) {
-          axios
-            .get(`${config.API_URL}/api/upcoming`, { withCredentials: true })
-            .then((res) => {
-              updateUpcoming(res.data);
-              updateUpcomingHeader("Upcoming shows");
-            });
-        } else {
-          updateUpcoming(upcomingFavorites);
-          updateUpcomingHeader("Your favorites");
-        }
-      });
+          // if no upcoming favorites get next 5 concerts
+          if (upcomingFavorites.length == 0) {
+            axios
+              .get(`${config.API_URL}/api/upcoming`, { withCredentials: true })
+              .then((res) => {
+                updateUpcoming(res.data);
+                updateUpcomingHeader("Upcoming shows");
+              });
+          } else {
+            updateUpcoming(upcomingFavorites);
+            updateUpcomingHeader("Your favorites");
+          }
+        });
+    }
   }, [favorites]);
 
   if (!user) return <Redirect to={"/"} />;
