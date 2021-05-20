@@ -32,7 +32,7 @@ function UserDashboard(props) {
             });
         } else {
           updateUpcoming(upcomingFavorites);
-          updateUpcomingHeader("Your next upcoming shows");
+          updateUpcomingHeader("Your favorites");
         }
       });
   }, [favorites]);
@@ -44,9 +44,9 @@ function UserDashboard(props) {
       <UserNavBar onLogout={onLogout} user={user} />
       <div>
         <Grid className={classes.container} container>
-          <Grid item xs={12} className="trans">
+          <Grid item xs={12} className="trans radius content-padding">
             {news && <NewsTicker news={news} />}
-            <h1>Hello {user.name}</h1>
+
             <UpcomingList
               user={user}
               concerts={upcoming}
