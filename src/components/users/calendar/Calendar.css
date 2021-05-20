@@ -1,0 +1,61 @@
+.calendar {
+  margin: auto !important;
+  max-width: 1200px;
+}
+
+/* ---- table ----- */
+.fc-scrollgrid-section-header .fc-scroller-harness,
+.fc-timegrid-axis-chunk .fc-timegrid-slot {
+  background-color: #0e2a30;
+}
+
+.fc-timegrid-col.fc-day-today,
+.fc-scrollgrid-section-sticky>* {
+  background: none !important;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+  border: none;
+}
+
+.fc-timegrid-slot-minor {
+  border-top: none;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border: 1px dotted #17454F;
+}
+
+.fc-col-header-cell-cushion {
+  color: #d7d7d7 !important;
+  padding: 8px !important
+}
+
+.fc-timegrid-slot-label-cushion {
+  color: #d7d7d7 !important;
+}
+
+/* ----- events ----- */
+.fc-timegrid-event-harness-inset .fc-timegrid-event,
+.fc-timegrid-event.fc-event-mirror,
+.fc-timegrid-more-link {
+  box-shadow: none;
+  border-radius: 4px;
+}
+
+.fc .fc-timegrid-col-events {
+  width: 98%;
+}
+
+.fc-event-main {
+  padding: 10px !important;
+}
+
+.fc-event-time {
+  font-size: 1.2em !important;
+}
+
+.fc-event-title {
+  font-size: 1.3em !important;
+}

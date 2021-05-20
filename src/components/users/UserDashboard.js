@@ -32,7 +32,7 @@ function UserDashboard(props) {
             });
         } else {
           updateUpcoming(upcomingFavorites);
-          updateUpcomingHeader("Your next upcoming shows");
+          updateUpcomingHeader("Your favorites");
         }
       });
   }, [favorites]);
@@ -41,12 +41,12 @@ function UserDashboard(props) {
 
   return (
     <>
-      <UserNavBar onLogout={onLogout} />
+      <UserNavBar onLogout={onLogout} user={user} />
       <div>
-        <Grid className={classes.container} container spacing={3}>
-          <Grid item xs={12} className="trans">
+        <Grid className={classes.container} container>
+          <Grid item xs={12} className="trans radius content-padding">
             {news && <NewsTicker news={news} />}
-            <h1>Hello {user.name}</h1>
+
             <UpcomingList
               user={user}
               concerts={upcoming}
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(2),
     margin: "auto",
-    maxWidth: 600,
+    maxWidth: "600px",
     background: "rgba (0, 0, 0, 0.5)",
   },
 }));

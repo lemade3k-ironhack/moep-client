@@ -2,19 +2,19 @@ import axios from "axios";
 import config from "../../../config";
 import React, { useState } from "react";
 import { Redirect } from "react-router";
-import { Grid, makeStyles } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import FullCalendar from "@fullcalendar/react";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import scrollGridPlugin from "@fullcalendar/scrollgrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Modal, { ModalProvider } from "styled-react-modal";
 import { UserNavBar, ConcertDetail } from "../../index";
+import "./Calendar.css";
 
 function Calendar(props) {
   const { user, stages, concerts, favorites, updateFavorite, onLogout } = props;
   const [showOpen, updateShowOpen] = useState(false);
   const [concert, updateConcert] = useState(null);
-  const classes = useStyles();
   const festivalStart = config.FESTIVAL_START_DATE;
   const festivalEnd = config.FESTIVAL_END_DATE;
 
@@ -40,52 +40,56 @@ function Calendar(props) {
   if (!user) return <Redirect to={"/"} />;
 
   return (
-    <Grid className={classes.container} container spacing={3}>
+    <>
       <UserNavBar onLogout={onLogout} />
-      <Grid item xs={12}>
-        <FullCalendar
-          plugins={[
-            resourceTimeGridPlugin,
-            scrollGridPlugin,
-            interactionPlugin,
-          ]}
-          initialView="resourceTimeGridDay"
-          validRange={{ start: festivalStart, end: festivalEnd }}
-          visibleRange={{ start: festivalStart, end: festivalEnd }}
-          headerToolbar={{ start: "", center: "title", end: "prev,next" }}
-          allDaySlot={false}
-          dayMinWidth={260}
-          height={"auto"}
-          resources={stages}
-          events={concerts}
-          eventClick={handleEventClick}
-        />
-        {/* render show concert details as overlay */}
-        <ModalProvider>
-          <StyledModal
-            isOpen={showOpen}
-            onBackgroundClick={toggleShowOpen}
-            onEscapeKeydown={toggleShowOpen}
-          >
-            <ConcertDetail
-              concert={concert}
-              favorites={favorites}
-              updateFavorite={updateFavorite}
-            />
-          </StyledModal>
-        </ModalProvider>
+      <Grid className="calendar trans content-padding" container spacing={3}>
+        <Grid item xs={12}>
+          <h2 className="center">Timetable</h2>
+          <FullCalendar
+            plugins={[
+              resourceTimeGridPlugin,
+              scrollGridPlugin,
+              interactionPlugin,
+            ]}
+            initialView="resourceTimeGridDay"
+            validRange={{ start: festivalStart, end: festivalEnd }}
+            visibleRange={{ start: festivalStart, end: festivalEnd }}
+            headerToolbar={{ start: "title", center: "", end: "prev,next" }}
+            eventTimeFormat={{
+              hour: "numeric",
+              minute: "2-digit",
+              omitZeroMinute: true,
+              meridiem: "short",
+            }}
+            allDaySlot={false}
+            dayMinWidth={258}
+            height={"auto"}
+            eventColor="#0e2a30"
+            eventBorderColor="#0e2a30"
+            eventTextColor="#d7d7d7"
+            resources={stages}
+            events={concerts}
+            eventClick={handleEventClick}
+          />
+          {/* render show concert details as overlay */}
+          <ModalProvider>
+            <StyledModal
+              isOpen={showOpen}
+              onBackgroundClick={toggleShowOpen}
+              onEscapeKeydown={toggleShowOpen}
+            >
+              <ConcertDetail
+                concert={concert}
+                favorites={favorites}
+                updateFavorite={updateFavorite}
+              />
+            </StyledModal>
+          </ModalProvider>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: theme.spacing(2),
-    margin: "auto",
-    maxWidth: 1200,
-  },
-}));
 
 const StyledModal = Modal.styled`
   width: 20rem;

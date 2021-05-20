@@ -158,12 +158,18 @@ function AdminCalendar(props) {
           validRange={{ start: festivalStart, end: festivalEnd }}
           visibleRange={{ start: festivalStart, end: festivalEnd }}
           headerToolbar={{ start: "", center: "title", end: "" }}
+          resources={[{ id: stage._id, title: " " }]}
+          eventTimeFormat={{
+            hour: "numeric",
+            minute: "2-digit",
+            omitZeroMinute: true,
+            meridiem: "short",
+          }}
           allDaySlot={false}
           dayMinWidth={260}
           height={"auto"}
           eventColor="#0e2a30"
           eventTextColor="#d7d7d7"
-          resources={[{ id: stage._id, title: " " }]}
           events={concerts}
           dateClick={handleDateClick}
           eventClick={handleEventClick}

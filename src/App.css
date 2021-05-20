@@ -8,16 +8,72 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100%
+  background-color: #0e2a30;
+  height: 100%;
+}
+
+img {
+  width: 50px;
+  margin: 40
 }
 
 /* ----- global helper classes ----- */
+.content-padding {
+  padding: 16px 32px;
+}
+
 .center {
   display: flex;
   justify-content: center;
 }
 
 .trans {
-  background-color: rgb(255 255 255 / 40%);
+  background-color: rgb(255 255 255 / 60%);
   color: black;
+}
+
+.color {
+  background-color: #0e2a30;
+}
+
+.linkColor {
+  color: #d7d7d7;
+}
+
+.linkColor:hover {
+  color: #6699cc;
+  text-decoration: none;
+}
+
+.linkDark {
+  color: #0e2a30;
+ font-style: oblique;
+}
+
+.linkDark:hover {
+  color: #6699cc;
+  text-decoration: none;
+}
+
+.radius {
+  border-radius: 15px;
+}
+
+.linkPadding {
+  padding: 10px 10px 
+}
+
+.linkSize {
+  font-size: 1.2rem
+}
+
+.flex-column{
+  display:flex;
+  flex-direction: column;
+  justify-content:flex-start;
+  align-items: center;
+}
+
+.margin {
+  margin-top: 30px;
 }

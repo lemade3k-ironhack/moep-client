@@ -1,35 +1,39 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import config from "../../config";
+import { Navbar, Nav } from "react-bootstrap";
+import "./UserNavBar.css";
 
 function UserNavBar(props) {
   const { onLogout } = props;
-  const festivalName = config.FESTIVAL_NAME;
 
   return (
-    <Navbar bg="light" expand="lg">
-      <Navbar.Brand>
-        <Link to="/welcome">{festivalName}</Link>
-      </Navbar.Brand>
-
-      <Nav className="mr-auto">
-        <NavDropdown title="Menu" id="basic-nav-dropdown">
-          <NavDropdown.Item>
-            <Link to="/timetable">Timetable</Link>
-          </NavDropdown.Item>
-
-          <NavDropdown.Item>
-            <Link to="/lineup">Lineup</Link>
-          </NavDropdown.Item>
-
-          <NavDropdown.Divider />
-          <NavDropdown.Item variant="outline-success" onClick={onLogout}>
-            Logout
-          </NavDropdown.Item>
-        </NavDropdown>
-      </Nav>
-    </Navbar>
+    <div>
+      <Navbar className="color" expand="sm" variant="dark">
+        <Navbar.Brand>
+          <Link to="/welcome">
+            <img src="/IronH.png" />
+          </Link>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav>
+            <Nav.Link>
+              <Link to="/lineup" className="linkColor">
+                Lineup
+              </Link>
+            </Nav.Link>
+            <Nav.Link>
+              <Link to="/timetable" className="linkColor">
+                Timetable
+              </Link>
+            </Nav.Link>
+            <Nav.Link onClick={onLogout}>
+              <Link className="linkColor">Logout</Link>
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </div>
   );
 }
 

@@ -10,16 +10,20 @@ function ConcertList(props) {
   return (
     <>
       <UserNavBar onLogout={onLogout} />
-      {concerts.map((concert, i) => {
-        return (
-          <ConcertDetail
-            key={i}
-            concert={concert}
-            favorites={favorites}
-            updateFavorite={updateFavorite}
-          />
-        );
-      })}
+      <div className="center margin">
+        <div className="content-padding">
+          {concerts.map((concert, i) => {
+            return (
+              <ConcertDetail
+                key={i}
+                concert={concert}
+                favorites={favorites}
+                updateFavorite={updateFavorite}
+              />
+            );
+          })}
+        </div>
+      </div>
     </>
   );
 }

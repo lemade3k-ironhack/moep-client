@@ -50,7 +50,7 @@ function ConcertNewForm(props) {
           name="starttime"
           label="Start time"
           type="time"
-          defaultValue={moment(dateOnNew).format("hh:mm:ss")}
+          defaultValue={moment(dateOnNew).format("HH:mm:ss")}
           className={classes.picker}
           variant="outlined"
           required
@@ -65,7 +65,7 @@ function ConcertNewForm(props) {
           name="endtime"
           label="Endtime time"
           type="time"
-          defaultValue={moment(dateOnNew).add(2, "h").format("hh:mm:ss")}
+          defaultValue={moment(dateOnNew).add(2, "h").format("HH:mm:ss")}
           className={classes.picker}
           variant="outlined"
           required

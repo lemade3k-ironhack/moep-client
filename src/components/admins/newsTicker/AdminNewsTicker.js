@@ -34,7 +34,11 @@ function AdminNewsTicker(props) {
         )}
       </Typography>
       {!showNewForm &&
-        (news ? <NewsTicker news={news} /> : <p className="noTickerNews">No current ticker news</p>)}
+        (news ? (
+          <NewsTicker news={news} />
+        ) : (
+          <p className="noTickerNews">No current ticker news</p>
+        ))}
     </Grid>
   );
 }

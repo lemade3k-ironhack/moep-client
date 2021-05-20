@@ -36,7 +36,13 @@ function ConcertDetail(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={() => { onDelete(concert._id) }} size="small" color="primary">
+        <Button
+          onClick={() => {
+            onDelete(concert._id);
+          }}
+          size="small"
+          color="primary"
+        >
           delete
         </Button>
       </CardActions>
@@ -48,8 +54,8 @@ const useStyles = makeStyles({
   container: {
     minHeight: "35rem",
     minWidth: "35rem",
-    margin: "auto"
-  }
-})
+    margin: "auto",
+  },
+});
 
 export default ConcertDetail;
