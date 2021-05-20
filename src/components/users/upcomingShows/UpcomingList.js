@@ -46,6 +46,7 @@ function UpcomingList(props) {
               }}
             >
               <ListItemText
+                alignItems="center"
                 primary={concert.bandname}
                 secondary={`${moment(concert.starttime).format(
                   "yyyy-MM-DD"
@@ -78,11 +79,11 @@ function UpcomingList(props) {
 }
 
 const StyledModal = Modal.styled`
-
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
+  border-radius: 15px
 `;
 
 export default UpcomingList;
