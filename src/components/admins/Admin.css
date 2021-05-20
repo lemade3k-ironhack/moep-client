@@ -46,28 +46,16 @@
 }
 
 /* ----- Calendar ----- */
-.fc-event-main { 
-  padding: 10px !important; 
-}
-
-.fc-event-time {
-  font-size: 1.2em !important;
-}
-
-.fc-event-title {
-  font-size: 1.3em !important;
-}
-
-.fc-col-header-cell-cushion {
-  color: #0e2a30 !important;
-}
-
 .admin th.fc-resource {
   display: none !important;
 }
 
 .admin .fc-day-today {
   background-color: #d7d7d7 !important;
+}
+
+.admin .fc-col-header .fc-day-today {
+  background-color: #0e2a30 !important;
 }
 
 .admin table.fc-col-header {

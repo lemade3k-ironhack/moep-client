@@ -8,6 +8,7 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: #0e2a30;
   height: 100%;
 }
 
@@ -17,6 +18,10 @@ img {
 }
 
 /* ----- global helper classes ----- */
+.content-padding {
+  padding: 16px 32px;
+}
+
 .center {
   display: flex;
   justify-content: center;
@@ -25,6 +30,10 @@ img {
 .trans {
   background-color: rgb(255 255 255 / 40%);
   color: black;
+}
+
+.color {
+  background-color: #0e2a30;
 }
 
 .linkColor {
