@@ -4,7 +4,6 @@ import { List, ListItem, ListItemText } from "@material-ui/core";
 import moment from "moment";
 import Modal, { ModalProvider } from "styled-react-modal";
 import { ConcertDetail } from "../../index";
-import "./UserDashBoard.css";
 
 function UpcomingList(props) {
   const { header, concerts, favorites, updateFavorite } = props;

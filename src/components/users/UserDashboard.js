@@ -5,7 +5,6 @@ import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import { NewsTicker, UpcomingList, UserNavBar } from "../index";
-import "./UserNavBar.css";
 
 function UserDashboard(props) {
   const { user, news, favorites, updateFavorite, onLogout } = props;
