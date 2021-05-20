@@ -66,3 +66,14 @@ img {
 .linkSize {
   font-size: 1.2rem
 }
+
+.flex-column{
+  display:flex;
+  flex-direction: column;
+  justify-content:flex-start;
+  align-items: center;
+}
+
+.margin {
+  margin-top: 30px;
+}
