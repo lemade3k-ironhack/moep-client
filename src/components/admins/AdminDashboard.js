@@ -89,7 +89,7 @@ function AdminDashboard(props) {
   if (!stages) return <CircularProgress />;
 
   return (
-    <Grid container spacing={8} className="adminDashboard">
+    <Grid container spacing={8} className="admin">
       <AdminNavBar user={user} onLogout={onLogout} />
       <Grid item xs={12}>
         <AdminNewsTicker
