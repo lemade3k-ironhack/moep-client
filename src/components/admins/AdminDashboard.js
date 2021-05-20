@@ -1,10 +1,10 @@
 import axios from "axios";
 import config from "../../config";
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid, CircularProgress } from "@material-ui/core/";
-import { AdminNavBar, AdminNewsTicker, StageList } from "../index";
 import { Redirect } from "react-router";
+import { AdminNavBar, AdminNewsTicker, StageList } from "../index";
+import { Grid, CircularProgress } from "@material-ui/core/";
+import "./Admin.css";
 
 function AdminDashboard(props) {
   const {
@@ -18,7 +18,6 @@ function AdminDashboard(props) {
   const [stages, updateStages] = useState([]);
   const [showNewForm, updateShowNewForm] = useState(false);
   const [error, updateError] = useState(null);
-  const classes = useStyles();
 
   // fetch stages on mount
   useEffect(() => {
@@ -90,8 +89,8 @@ function AdminDashboard(props) {
   if (!stages) return <CircularProgress />;
 
   return (
-    <Grid className={classes.container} container spacing={3}>
-      <AdminNavBar onLogout={onLogout} />
+    <Grid container spacing={8} className="adminDashboard">
+      <AdminNavBar user={user} onLogout={onLogout} />
       <Grid item xs={12}>
         <AdminNewsTicker
           news={news}
@@ -113,13 +112,5 @@ function AdminDashboard(props) {
     </Grid>
   );
 }
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: theme.spacing(2),
-    margin: "auto",
-    maxWidth: 1200,
-  },
-}));
 
 export default AdminDashboard;

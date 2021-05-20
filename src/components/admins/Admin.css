@@ -1,0 +1,64 @@
+.adminDashboard {
+  margin: auto !important;
+  max-width: 1200px;
+  background-color: #eee;
+}
+
+.adminDashboard .navbar {
+  width: 100%;
+  height: 100px;
+  padding: 0 32px;
+  background-color: #0e2a30;
+}
+
+.adminDashboard .navbar-brand {
+  flex-grow: 1;
+}
+
+.adminDashboard .navbar a {
+  color: #eee !important
+}
+
+.adminDashboard .navbar a:hover {
+  text-decoration: none;
+  color: #aaa !important
+}
+
+.adminDashboard .actionIcon {
+  float: right;
+}
+
+.adminDashboard .adminNewsTicker {
+  margin: 16px 0 64px
+}
+
+.adminDashboard .noTickerNews {
+  margin: 16px 0 0 16px;
+}
+
+.adminDashboard table {
+  margin-top: 16px;
+}
+
+.adminDashboard .editStageForm,
+.adminDashboard form {
+  width: 100%;
+  margin: 16px 0;
+}
+
+.adminDashboard .alert {
+  margin-bottom: 16px;
+}
+
+.adminDashboard .inputStageName {
+  width: 84%;
+}
+
+.adminDashboard .inputTickerMessage {
+  width: 67%;
+}
+
+.adminDashboard .inputTickerDuration,
+.adminDashboard .submit {
+  width: 15%;
+}

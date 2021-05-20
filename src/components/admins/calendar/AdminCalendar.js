@@ -149,7 +149,7 @@ function AdminCalendar(props) {
 
   return (
     <Grid className={classes.container} container spacing={3}>
-      <AdminNavBar onLogout={onLogout} />
+      <AdminNavBar user={user} onLogout={onLogout} />
       <Grid item xs={12}>
         <Typography component="h1" variant="h5">
           {stage.name} - Concerts

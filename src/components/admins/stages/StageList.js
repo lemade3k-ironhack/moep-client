@@ -7,8 +7,9 @@ import {
   TableRow,
   TableCell,
   Typography,
+  Fab,
 } from "@material-ui/core";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import AddIcon from "@material-ui/icons/Add";
 import { StageListRow, StageNewForm } from "../../index";
 
 function StageList(props) {
@@ -26,7 +27,7 @@ function StageList(props) {
     e.preventDefault();
     onNew(e.target.name.value);
   };
-  
+
   return (
     <>
       <Typography component="h1" variant="h5">
@@ -34,7 +35,14 @@ function StageList(props) {
         {showNewForm ? (
           <StageNewForm handleSubmit={handleSubmit} error={error} />
         ) : (
-          <AddCircleIcon onClick={handleShowNewForm} />
+          <Fab
+            className="actionIcon"
+            size="small"
+            color="primary"
+            aria-label="add"
+          >
+            <AddIcon onClick={handleShowNewForm} />
+          </Fab>
         )}
       </Typography>
       <TableContainer>
