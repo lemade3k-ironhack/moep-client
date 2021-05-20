@@ -7,12 +7,7 @@ import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import scrollGridPlugin from "@fullcalendar/scrollgrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Modal, { ModalProvider } from "styled-react-modal";
-import {
-  CircularProgress,
-  Grid,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import { CircularProgress, Grid, Typography } from "@material-ui/core";
 import { ConcertNewForm, AdminConcertDetail, AdminNavBar } from "../../index";
 
 function AdminCalendar(props) {
@@ -24,7 +19,6 @@ function AdminCalendar(props) {
   const [dateOnNew, updateDateOnNew] = useState("");
   const [showOpen, updateShowOpen] = useState(false);
   const [concert, updateConcert] = useState(null);
-  const classes = useStyles();
   const festivalStart = config.FESTIVAL_START_DATE;
   const festivalEnd = config.FESTIVAL_END_DATE;
 
@@ -53,7 +47,7 @@ function AdminCalendar(props) {
         );
       })
       .catch((err) => updateError(err.response.data));
-  }, [concerts]);
+  }, []);
 
   // helper function to toggle overlay
   const toggleNewForm = () => {
@@ -129,9 +123,9 @@ function AdminCalendar(props) {
       .delete(`${config.API_URL}/api/concerts/${concertId}/delete`, {
         withCredentials: true,
       })
-      .then((deleted) => {
+      .then((res) => {
         let filtered = concerts.filter(
-          (concert) => concert.title !== deleted.bandname
+          (concert) => concert.title !== res.data.bandname
         );
         updateConcerts(filtered);
         updateError(null);
@@ -148,9 +142,9 @@ function AdminCalendar(props) {
   if (!stage) return <CircularProgress />;
 
   return (
-    <Grid className={classes.container} container spacing={3}>
-      <AdminNavBar onLogout={onLogout} />
-      <Grid item xs={12}>
+    <Grid className="admin" container spacing={8}>
+      <AdminNavBar user={user} onLogout={onLogout} />
+      <Grid className="adminCalendar" item xs={12}>
         <Typography component="h1" variant="h5">
           {stage.name} - Concerts
         </Typography>
@@ -167,6 +161,8 @@ function AdminCalendar(props) {
           allDaySlot={false}
           dayMinWidth={260}
           height={"auto"}
+          eventColor="#0e2a30"
+          eventTextColor="#d7d7d7"
           resources={[{ id: stage._id, title: " " }]}
           events={concerts}
           dateClick={handleDateClick}
@@ -206,14 +202,6 @@ function AdminCalendar(props) {
     </Grid>
   );
 }
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: theme.spacing(2),
-    margin: "auto",
-    maxWidth: 1200,
-  },
-}));
 
 const StyledModal = Modal.styled`
   width: 40rem;

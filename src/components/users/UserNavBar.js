@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import config from "../../config";
+import { Navbar, Nav } from "react-bootstrap";
 import "./UserNavBar.css";
 
 function UserNavBar(props) {
-  const { onLogout, user } = props;
-  const festivalName = config.FESTIVAL_NAME;
+  const { onLogout } = props;
 
   return (
     <div>
@@ -14,7 +12,7 @@ function UserNavBar(props) {
         <Navbar.Brand>
           <Link to="/welcome">
             <img src="/IronH.png" />
-          </Link>{" "}
+          </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -25,7 +23,6 @@ function UserNavBar(props) {
               </Link>
             </Nav.Link>
             <Nav.Link>
-              {" "}
               <Link to="/timetable" className="linkColor">
                 Timetable
               </Link>

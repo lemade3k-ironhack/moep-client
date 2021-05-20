@@ -1,23 +1,11 @@
 .color {
-  background-color:#0e2a30;
+  background-color: #0e2a30;
 }
 
-img{
-  width: 50px;
-  margin: 40
-}
-
-.linkColor {
-  color: #d7d7d7;
-  }
-
-.linkColor:hover {
-  color: #6699cc;
-  text-decoration: none;
-}
-.navbar-toggler-icon{
+.navbar-toggler-icon {
   color: #d7d7d7;
 }
+
 .navbar-expand-sm {
-  margin:auto
+  margin: auto
 }

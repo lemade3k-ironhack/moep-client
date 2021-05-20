@@ -6,7 +6,7 @@ import Modal, { ModalProvider } from "styled-react-modal";
 import { ConcertDetail } from "../../index";
 
 function UpcomingList(props) {
-  const { header, concerts, favorites, updateFavorite, user } = props;
+  const { header, concerts, favorites, updateFavorite } = props;
   const [concert, updateConcert] = useState(null);
   const [showOpen, updateShowOpen] = useState(false);
 

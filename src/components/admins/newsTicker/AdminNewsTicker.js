@@ -1,6 +1,6 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { Fab, Grid, Typography } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import { NewsTicker, TickerNewForm } from "../..";
 
 function AdminNewsTicker(props) {
@@ -17,18 +17,25 @@ function AdminNewsTicker(props) {
   };
 
   return (
-    <>
+    <Grid className="adminNewsTicker">
       <Typography component="h1" variant="h5">
         Ticker News
         {showNewForm ? (
           <TickerNewForm handleSubmit={handleSubmit} error={error} />
         ) : (
-          <AddCircleIcon onClick={handleShowNewForm} />
+          <Fab
+            className="actionIcon"
+            size="small"
+            color="primary"
+            aria-label="add"
+          >
+            <AddIcon onClick={handleShowNewForm} />
+          </Fab>
         )}
       </Typography>
       {!showNewForm &&
-        (news ? <NewsTicker news={news} /> : <p>No current ticker news</p>)}
-    </>
+        (news ? <NewsTicker news={news} /> : <p className="noTickerNews">No current ticker news</p>)}
+    </Grid>
   );
 }
 
