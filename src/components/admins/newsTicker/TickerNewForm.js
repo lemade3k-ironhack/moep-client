@@ -1,15 +1,14 @@
 import React from "react";
-import { makeStyles, Button, TextField, Grid } from "@material-ui/core";
+import { Button, TextField, Grid } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
 function TickerNewForm(props) {
   const { handleSubmit, error } = props;
-  const classes = useStyles();
 
   return (
-    <form onSubmit={handleSubmit} className={classes.form}>
+    <form onSubmit={handleSubmit}>
       {error && (
-        <Alert className={classes.alert} severity="error">
+        <Alert className="alert" severity="error">
           {error.errorMessage}
         </Alert>
       )}
@@ -17,7 +16,7 @@ function TickerNewForm(props) {
         <TextField
           name="message"
           label="Ticker message"
-          className={classes.message}
+          className="inputTickerMessage"
           variant="outlined"
           required
           autoFocus
@@ -28,42 +27,23 @@ function TickerNewForm(props) {
           label="Duration in minutes"
           type="number"
           defaultValue={60}
-          className={classes.duration}
+          className="inputTickerDuration"
           variant="outlined"
           InputLabelProps={{ shrink: true }}
           InputProps={{ inputProps: { min: 1, max: 1440 } }}
         />
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          className="submit"
+        >
+          Add News
+        </Button>
+        {/* ToDo: Add Cancel Button */}
       </Grid>
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        color="primary"
-        className={classes.submit}
-      >
-        Add News
-      </Button>
-      {/* ToDo: Add Cancel Button */}
     </form>
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  alert: {
-    marginBottom: theme.spacing(3),
-  },
-  form: {
-    width: "100%",
-    marginTop: theme.spacing(3),
-  },
-  message: {
-    width: "75%",
-  },
-  duration: {
-    width: "24%",
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
 export default TickerNewForm;

@@ -14,6 +14,7 @@ import {
 } from "./components";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 function App(props) {
   const [user, updateUser] = useState(null);
@@ -22,7 +23,7 @@ function App(props) {
   const [favorites, updateFavorites] = useState([]);
   const [calendarStages, updateCalendarStages] = useState([]);
   const [calendarEvents, updateCalendarEvents] = useState([]);
-  const [news, updateNews] = useState(null);
+  const [news, updateNews] = useState([]);
   const [showNewTickerForm, updateShowNewTickerForm] = useState(false);
   const [redirectPath, updateRedirectPath] = useState(null);
   const [error, updateError] = useState(null);
@@ -205,7 +206,9 @@ function App(props) {
         { withCredentials: true }
       )
       .then((res) => {
-        updateNews([res.data.message, ...news]);
+        const message = res.data.message;
+
+        !news ? updateNews([message]) : updateNews([message, ...news]);
         updateError(null);
         updateShowNewTickerForm(false);
       })

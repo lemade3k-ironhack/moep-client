@@ -1,0 +1,23 @@
+/* ----- general ----- */
+html {
+  height: 100%;
+}
+
+body {
+  background-image: url(../src/images/bgrd.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%
+}
+
+/* ----- global helper classes ----- */
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.trans {
+  background-color: rgb(255 255 255 / 40%);
+  color: black;
+}

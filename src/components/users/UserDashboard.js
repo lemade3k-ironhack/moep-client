@@ -28,7 +28,7 @@ function UserDashboard(props) {
             .get(`${config.API_URL}/api/upcoming`, { withCredentials: true })
             .then((res) => {
               updateUpcoming(res.data);
-              updateUpcomingHeader("Next upcoming shows");
+              updateUpcomingHeader("Upcoming shows");
             });
         } else {
           updateUpcoming(upcomingFavorites);
@@ -40,20 +40,24 @@ function UserDashboard(props) {
   if (!user) return <Redirect to={"/"} />;
 
   return (
-    <Grid className={classes.container} container spacing={3}>
+    <>
       <UserNavBar onLogout={onLogout} />
-      <Grid item xs={12}>
-        {news && <NewsTicker news={news} />}
-        <h1>Hello {user.name}</h1>
-        <UpcomingList
-          user={user}
-          concerts={upcoming}
-          favorites={favorites}
-          updateFavorite={updateFavorite}
-          header={upcomingHeader}
-        />
-      </Grid>
-    </Grid>
+      <div>
+        <Grid className={classes.container} container spacing={3}>
+          <Grid item xs={12} className="trans">
+            {news && <NewsTicker news={news} />}
+            <h1>Hello {user.name}</h1>
+            <UpcomingList
+              user={user}
+              concerts={upcoming}
+              favorites={favorites}
+              updateFavorite={updateFavorite}
+              header={upcomingHeader}
+            />
+          </Grid>
+        </Grid>
+      </div>
+    </>
   );
 }
 
@@ -61,7 +65,8 @@ const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(2),
     margin: "auto",
-    maxWidth: 1000,
+    maxWidth: 600,
+    background: "rgba (0, 0, 0, 0.5)",
   },
 }));
 
