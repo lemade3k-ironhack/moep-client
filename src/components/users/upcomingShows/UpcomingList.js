@@ -24,8 +24,17 @@ function UpcomingList(props) {
   return (
     <div>
       <h2 className="center"> {header} </h2>
-      <Link to={"/timetable"}>Timetable</Link>
-      <Link to={"/lineup"}>Lineup</Link>
+      <div className="center">
+        <Link
+          className="center linkDark linkPadding linkSize"
+          to={"/timetable"}
+        >
+          Timetable
+        </Link>
+        <Link className="center linkDark linkPadding linkSize" to={"/lineup"}>
+          Lineup
+        </Link>
+      </div>
       <List>
         {concerts.map((concert, i) => {
           return (
@@ -36,6 +45,7 @@ function UpcomingList(props) {
               }}
             >
               <ListItemText
+                alignItems="center"
                 primary={concert.bandname}
                 secondary={`${moment(concert.starttime).format(
                   "yyyy-MM-DD"
@@ -68,11 +78,11 @@ function UpcomingList(props) {
 }
 
 const StyledModal = Modal.styled`
-
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
+  border-radius: 15px
 `;
 
 export default UpcomingList;
