@@ -157,7 +157,7 @@ function App(props) {
         updateUser(res.data);
         updateError(null);
 
-        if (res.data.role === "admin") {
+        if (res.data.admin) {
           updateRedirectPath("adminDashboard");
         } else {
           updateRedirectPath("userDashboard");
