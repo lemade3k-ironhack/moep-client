@@ -83,7 +83,7 @@ function AdminDashboard(props) {
 
   if (!user) {
     return <Redirect to={"/"} />;
-  } else if (user.role !== "admin") {
+  } else if (!user.admin) {
     return <Redirect to={"/welcome"} />;
   }
   if (!stages) return <CircularProgress />;
