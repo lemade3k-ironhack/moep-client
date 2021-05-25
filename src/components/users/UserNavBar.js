@@ -18,13 +18,13 @@ function UserNavBar(props) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
             <Nav.Link>
-              <Link to="/lineup" className="linkColor">
-                Lineup
+              <Link to="/timetable" className="linkColor">
+                Timetable
               </Link>
             </Nav.Link>
             <Nav.Link>
-              <Link to="/timetable" className="linkColor">
-                Timetable
+              <Link to="/lineup" className="linkColor">
+                Lineup
               </Link>
             </Nav.Link>
             <Nav.Link onClick={onLogout}>

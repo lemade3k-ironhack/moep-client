@@ -1,0 +1,9 @@
+@media only screen and (max-device-width: 700px) { 
+  .concertList .content-padding {
+    padding: 0 8px 0 0 !important;
+  }
+
+  .concertList .trans {
+    background: none;
+  }
+}

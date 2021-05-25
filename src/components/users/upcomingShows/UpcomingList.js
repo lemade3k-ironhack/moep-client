@@ -64,6 +64,7 @@ function UpcomingList(props) {
             isOpen={showOpen}
             onBackgroundClick={toggleShowOpen}
             onEscapeKeydown={toggleShowOpen}
+            className=""
           >
             <ConcertDetail
               concert={concert}

@@ -2,7 +2,6 @@ import axios from "axios";
 import config from "../../config";
 import { React, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import { NewsTicker, UpcomingList, UserNavBar } from "../index";
 
@@ -10,7 +9,6 @@ function UserDashboard(props) {
   const { user, news, favorites, updateFavorite, onLogout } = props;
   const [upcomingHeader, updateUpcomingHeader] = useState("");
   const [upcoming, updateUpcoming] = useState([]);
-  const classes = useStyles();
 
   // fetch data on update
   useEffect(() => {
@@ -43,7 +41,7 @@ function UserDashboard(props) {
     <>
       <UserNavBar onLogout={onLogout} user={user} />
       <div>
-        <Grid className={classes.container} container>
+        <Grid className="container" container>
           <Grid item xs={12} className="trans radius content-padding">
             {news && <NewsTicker news={news} />}
 
@@ -60,14 +58,5 @@ function UserDashboard(props) {
     </>
   );
 }
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: theme.spacing(2),
-    margin: "auto",
-    maxWidth: "600px",
-    background: "rgba (0, 0, 0, 0.5)",
-  },
-}));
 
 export default UserDashboard;
